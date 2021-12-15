@@ -1,4 +1,4 @@
-import type { NODE_ENV } from "src/@types/env";
+import type { NODE_ENV } from "../@types/env";
 
 export default () =>
     ({

@@ -1,12 +1,5 @@
-export default function Home({ articles }: any) {
-    console.log(articles);
-    return <div>Test</div>;
-}
+import React from "react";
 
-export async function getServerSideProps() {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const data = await response.json();
-    return {
-        props: { articles: data },
-    };
+export default function App() {
+    return <div>Home page</div>;
 }
