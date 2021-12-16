@@ -1,12 +1,12 @@
 {
-    "name": "streamify-server",
+    "name": "streamify",
     "version": "0.0.1",
     "description": "",
-    "author": "",
-    "private": true,
-    "license": "UNLICENSED",
+    "author": "Philip Angelin",
+    "license": "MIT",
     "scripts": {
         "prebuild": "rimraf dist",
+        "next": "cd src/client && next",
         "build": "nest build && cd src/client && next build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "nest start",
