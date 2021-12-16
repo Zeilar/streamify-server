@@ -2,7 +2,8 @@ import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import next from "next";
 import { NextServer } from "next/dist/server/next";
-import { EnvConfig, NODE_ENV } from "../../@types/env";
+import { NODE_ENV } from "../../@types/env";
+import { EnvConfig } from "../../@types/config";
 
 @Injectable()
 export class ViewService implements OnModuleInit {

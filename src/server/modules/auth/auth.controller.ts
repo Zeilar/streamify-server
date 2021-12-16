@@ -1,19 +1,25 @@
 import { Controller, Post, Req, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+import { ConfigService } from "@nestjs/config";
+import { hashSync } from "bcrypt";
 import { Request } from "express";
+import { BcryptConfig } from "../../@types/config";
 import { UserService } from "../user/user.service";
 import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller("/auth")
 export class AuthController {
-    constructor(private readonly userService: UserService) {}
+    constructor(
+        private readonly userService: UserService,
+        private readonly configService: ConfigService<BcryptConfig>
+    ) {}
 
     @Post("/register")
     public async register() {
+        const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         return this.userService.create({
             displayName: "Display name",
             email: "test",
-            password: "test",
+            password: hashSync("password", saltRounds),
         });
     }
 
