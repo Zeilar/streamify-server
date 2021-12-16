@@ -12,8 +12,8 @@ export class AuthService {
             throw new NotFoundException();
         }
         if (compareSync(user.password, hashedPassword)) {
-            const { password, ...result } = user;
-            return result;
+            const { password, ...rest } = user;
+            return rest;
         }
         return null;
     }

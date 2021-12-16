@@ -6,6 +6,9 @@ export class User {
     id: number;
 
     @Column()
+    displayName: string;
+
+    @Column({ unique: true, type: "text" })
     email: string;
 
     @Column()
