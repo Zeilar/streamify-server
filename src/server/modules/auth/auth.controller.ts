@@ -10,6 +10,7 @@ import {
 import { Request } from "express";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { LoginGuard } from "../../common/guards/login.guard";
+import { CreateUserDto } from "../../common/validators/register.validator";
 import { UserService } from "../user/user.service";
 
 @Controller("/auth")
@@ -17,12 +18,8 @@ export class AuthController {
     constructor(private readonly userService: UserService) {}
 
     @Post("/register")
-    public async register(@Body("email") email: any) {
-        return this.userService.create({
-            displayName: "Display name",
-            email: "test",
-            password: "password",
-        });
+    public async register(@Body() createUserDto: CreateUserDto) {
+        return this.userService.create(createUserDto);
     }
 
     @UseGuards(LoginGuard)

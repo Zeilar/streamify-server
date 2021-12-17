@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { compareSync, hashSync } from "bcrypt";
 import { Repository } from "typeorm";
 import { BcryptConfig } from "../../@types/config";
-import { CreateUserDto } from "../../@types/user";
+import { CreateUserDto } from "../../common/validators/register.validator";
 import { User } from "./user.entity";
 
 @Injectable()

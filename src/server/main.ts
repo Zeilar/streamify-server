@@ -4,6 +4,7 @@ import passport from "passport";
 import { EnvConfig } from "./@types/config";
 import { AppModule } from "./modules/app/app.module";
 import session from "express-session";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -14,11 +15,12 @@ async function bootstrap() {
             secret: "nest cats",
             resave: false,
             saveUninitialized: false,
-        })
+        }),
+        passport.initialize(),
+        passport.session()
     );
 
-    app.use(passport.initialize());
-    app.use(passport.session());
+    app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
     await app.listen(configService.get<number>("port"));
 }
