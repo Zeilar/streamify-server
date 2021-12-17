@@ -1,4 +1,11 @@
-import { Controller, Post, Req, UseGuards } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Post,
+    Req,
+    UseGuards,
+    ValidationPipe,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { hashSync } from "bcrypt";
 import { Request } from "express";
@@ -14,7 +21,7 @@ export class AuthController {
     ) {}
 
     @Post("/register")
-    public async register() {
+    public async register(@Body("email") email: any) {
         const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         return this.userService.create({
             displayName: "Display name",
