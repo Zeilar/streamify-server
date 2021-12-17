@@ -1,14 +1,16 @@
 import {
     Body,
     Controller,
+    Get,
     Post,
     Req,
     UseGuards,
     ValidationPipe,
 } from "@nestjs/common";
 import { Request } from "express";
+import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
+import { LoginGuard } from "../../common/guards/login.guard";
 import { UserService } from "../user/user.service";
-import { LocalAuthGuard } from "./local-auth.guard";
 
 @Controller("/auth")
 export class AuthController {
@@ -23,9 +25,15 @@ export class AuthController {
         });
     }
 
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(LoginGuard)
     @Post("/login")
     public login(@Req() req: Request) {
+        return req.user;
+    }
+
+    @UseGuards(AuthenticatedGuard)
+    @Get("/whoami")
+    public whoami(@Req() req: Request) {
         return req.user;
     }
 }
