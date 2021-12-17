@@ -1,6 +1,9 @@
 import { ConflictException, Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
+import { compareSync, hashSync } from "bcrypt";
 import { Repository } from "typeorm";
+import { BcryptConfig } from "../../@types/config";
 import { CreateUserDto } from "../../@types/user";
 import { User } from "./user.entity";
 
@@ -8,7 +11,8 @@ import { User } from "./user.entity";
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private readonly userRepository: Repository<User>,
+        private readonly configService: ConfigService<BcryptConfig>
     ) {}
 
     public async findAll() {
@@ -31,11 +35,18 @@ export class UserService {
                 "A user with that email already exists."
             );
         }
+        const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         const user = this.userRepository.create({
+            ...userDto,
             createdAt: now,
             updatedAt: now,
-            ...userDto,
+            password: hashSync(userDto.password, saltRounds),
         });
+        console.log(
+            userDto.password,
+            user.password,
+            compareSync(userDto.password, user.password)
+        );
         await this.userRepository.insert(user);
         const { password, ...result } = user;
         return result;

@@ -6,12 +6,12 @@ import { compareSync } from "bcrypt";
 export class AuthService {
     constructor(private readonly userService: UserService) {}
 
-    async validateUser(email: string, hashedPassword: string) {
+    async validateUser(email: string, password: string) {
         const user = await this.userService.findOne("email", email);
         if (!user) {
             throw new NotFoundException();
         }
-        if (compareSync(user.password, hashedPassword)) {
+        if (compareSync(password, user.password)) {
             const { password, ...rest } = user;
             return rest;
         }
