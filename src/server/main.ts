@@ -4,7 +4,7 @@ import passport from "passport";
 import { EnvConfig } from "./@types/config";
 import { AppModule } from "./modules/app/app.module";
 import session from "express-session";
-import { ValidationPipe } from "@nestjs/common";
+import { RequestMethod, ValidationPipe } from "@nestjs/common";
 import { DateHelper } from "./common/helpers/Date.helper";
 import { NODE_ENV } from "./@types/env";
 
@@ -31,7 +31,9 @@ async function bootstrap() {
     );
 
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
-    app.setGlobalPrefix("/api/v1");
+    app.setGlobalPrefix("/api/v1", {
+        exclude: [{ path: "*", method: RequestMethod.GET }],
+    });
 
     await app.listen(configService.get<number>("port"));
 }
