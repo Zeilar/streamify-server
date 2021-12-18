@@ -20,7 +20,11 @@ export class UserService {
     ) {}
 
     public async findAll() {
-        return await this.userRepository.find();
+        const users = await this.userRepository.find();
+        return users.map((user) => {
+            const { password, ...rest } = user;
+            return rest;
+        });
     }
 
     public async findOne(column: keyof User, value: any) {
