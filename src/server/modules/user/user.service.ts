@@ -47,7 +47,9 @@ export class UserService {
     public async exists(idOrColumn: keyof User, value: any): Promise<boolean>;
     public async exists(idOrColumn: keyof User | number, value?: any) {
         const where =
-            value !== undefined ? { [idOrColumn]: value } : { id: idOrColumn };
+            typeof idOrColumn === "number"
+                ? { id: idOrColumn }
+                : { [idOrColumn]: value };
         const userCount = await this.userRepository.count({
             where,
         });
