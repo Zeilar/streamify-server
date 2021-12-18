@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { compareSync, hashSync } from "bcrypt";
@@ -20,9 +24,13 @@ export class UserService {
     }
 
     public async findOne(column: keyof User, value: any) {
-        return await this.userRepository.findOneOrFail({
+        const user = await this.userRepository.findOne({
             where: { [column]: value },
         });
+        if (!user) {
+            throw new NotFoundException();
+        }
+        return user;
     }
 
     public async create(userDto: CreateUserDto) {
@@ -42,11 +50,6 @@ export class UserService {
             updatedAt: now,
             password: hashSync(userDto.password, saltRounds),
         });
-        console.log(
-            userDto.password,
-            user.password,
-            compareSync(userDto.password, user.password)
-        );
         await this.userRepository.insert(user);
         const { password, ...result } = user;
         return result;
