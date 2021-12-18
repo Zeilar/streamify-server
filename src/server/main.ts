@@ -12,7 +12,7 @@ async function bootstrap() {
 
     app.use(
         session({
-            secret: "nest cats",
+            secret: configService.get<string>("SESSION_SECRET"),
             resave: false,
             saveUninitialized: false,
         }),
