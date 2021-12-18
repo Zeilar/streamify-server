@@ -6,7 +6,4 @@ export class EditUserDto {
 
     @IsNotEmpty()
     public password: string;
-
-    @IsNotEmpty()
-    public passwordConfirmation: string;
 }

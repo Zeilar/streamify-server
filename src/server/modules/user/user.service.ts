@@ -5,9 +5,11 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
-import { compareSync, hashSync } from "bcrypt";
+import { hashSync } from "bcrypt";
 import { Repository } from "typeorm";
 import { BcryptConfig } from "../../@types/config";
+import { FindOneId } from "../../@types/repository";
+import { EditUserDto } from "../../common/validators/editUser.validator";
 import { CreateUserDto } from "../../common/validators/register.validator";
 import { User } from "./user.entity";
 
@@ -37,12 +39,24 @@ export class UserService {
         return user;
     }
 
+    public async findById(id: FindOneId) {
+        return await this.findOne("id", id);
+    }
+
+    public async exists(idOrcolumn: number): Promise<boolean>;
+    public async exists(idOrColumn: keyof User, value: any): Promise<boolean>;
+    public async exists(idOrColumn: keyof User | number, value?: any) {
+        const where =
+            value !== undefined ? { [idOrColumn]: value } : { id: idOrColumn };
+        const userCount = await this.userRepository.count({
+            where,
+        });
+        return userCount > 0;
+    }
+
     public async create(userDto: CreateUserDto) {
         const now = new Date();
-        const userCount = await this.userRepository.count({
-            where: { email: userDto.email },
-        });
-        if (userCount > 0) {
+        if (this.exists("email", userDto.email)) {
             throw new ConflictException(
                 "A user with that email already exists."
             );
@@ -57,5 +71,9 @@ export class UserService {
         await this.userRepository.insert(user);
         const { password, ...result } = user;
         return result;
+    }
+
+    public async edit(id: FindOneId, editUserDto: EditUserDto) {
+        //
     }
 }

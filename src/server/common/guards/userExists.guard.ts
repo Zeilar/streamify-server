@@ -2,23 +2,20 @@ import {
     ExecutionContext,
     Injectable,
     CanActivate,
-    BadRequestException,
     NotFoundException,
-    UnauthorizedException,
-    ForbiddenException,
 } from "@nestjs/common";
 import { UserService } from "../../modules/user/user.service";
 
 @Injectable()
-export class EditUserGuard implements CanActivate {
+export class UserExistsGuard implements CanActivate {
     public constructor(private readonly userService: UserService) {}
 
     public async canActivate(context: ExecutionContext) {
         const request = context.switchToHttp().getRequest();
         const { id } = request.params;
         const user = await this.userService.findById(id);
-        if (user.id !== request.user.id) {
-            throw new ForbiddenException();
+        if (!user) {
+            throw new NotFoundException();
         }
         return request;
     }
