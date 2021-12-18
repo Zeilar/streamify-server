@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Post,
-    Req,
-    UseGuards,
-    ValidationPipe,
-} from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { Request } from "express";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { LoginGuard } from "../../common/guards/login.guard";
