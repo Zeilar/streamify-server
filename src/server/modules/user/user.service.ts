@@ -21,7 +21,7 @@ export class UserService {
         private readonly configService: ConfigService<BcryptConfig>
     ) {}
 
-    public async findAll() {
+    public async all() {
         const users = await this.userRepository.find();
         return users.map((user) => {
             const { password, ...rest } = user;
@@ -75,9 +75,7 @@ export class UserService {
         if (await this.exists("email", editUserDto.email)) {
             throw new ConflictException("That email is taken.");
         }
-        const data: EditUserDto = {
-            ...editUserDto,
-        };
+        const data: EditUserDto = { ...editUserDto };
         if (editUserDto.password) {
             data.password = hashSync(
                 editUserDto.password,

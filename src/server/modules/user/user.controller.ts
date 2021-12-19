@@ -10,8 +10,8 @@ export class UserController {
     public constructor(private readonly userService: UserService) {}
 
     @Get("/")
-    public async findAll() {
-        return await this.userService.findAll();
+    public async all() {
+        return await this.userService.all();
     }
 
     @UseGuards(UserExistsGuard, AuthenticatedGuard, EditUserGuard)
