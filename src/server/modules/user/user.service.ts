@@ -9,6 +9,7 @@ import { hash } from "bcrypt";
 import { Repository } from "typeorm";
 import { BcryptConfig } from "../../@types/config";
 import { FindOneId } from "../../@types/repository";
+import { UserSchema } from "../../@types/user";
 import { EditUserDto } from "../../common/validators/editUser.validator";
 import { CreateUserDto } from "../../common/validators/register.validator";
 import { User } from "./user.entity";
@@ -44,8 +45,11 @@ export class UserService {
     }
 
     public async exists(idOrcolumn: number): Promise<boolean>;
-    public async exists(idOrColumn: keyof User, value: any): Promise<boolean>;
-    public async exists(idOrColumn: keyof User | number, value?: any) {
+    public async exists(
+        idOrColumn: keyof UserSchema,
+        value: any
+    ): Promise<boolean>;
+    public async exists(idOrColumn: keyof UserSchema | number, value?: any) {
         const where =
             typeof idOrColumn === "number"
                 ? { id: idOrColumn }
@@ -76,6 +80,7 @@ export class UserService {
             throw new ConflictException("That email is taken.");
         }
         const data: EditUserDto = { ...editUserDto };
+        // Using TypeORM entity events don't work when calling update like this as it doesn't create an instance
         if (editUserDto.password) {
             data.password = await hash(
                 editUserDto.password,

@@ -1,22 +1,23 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { UserSchema } from "../../@types/user";
 
 @Entity()
-export class User {
+export class User implements UserSchema {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column()
-    displayName: string;
+    public displayName: string;
 
     @Column({ unique: true, type: "text" })
-    email: string;
+    public email: string;
 
     @Column()
-    password: string;
+    public password: string;
 
     @Column({ type: "timestamp" })
-    createdAt: Date;
+    public createdAt: Date;
 
     @Column({ type: "timestamp" })
-    updatedAt: Date;
+    public updatedAt: Date;
 }
