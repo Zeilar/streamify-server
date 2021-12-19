@@ -58,9 +58,9 @@ export class UserService {
 
     public async create(userDto: CreateUserDto) {
         const now = new Date();
-        if (this.exists("email", userDto.email)) {
+        if (await this.exists("email", userDto.email)) {
             throw new ConflictException(
-                "A user with that email already exists."
+                "A user with that email already exists 2."
             );
         }
         const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
@@ -76,6 +76,17 @@ export class UserService {
     }
 
     public async edit(id: FindOneId, editUserDto: EditUserDto) {
-        //
+        const data: EditUserDto = {
+            ...editUserDto,
+        };
+        if (editUserDto.password) {
+            data.password = hashSync(
+                editUserDto.password,
+                this.configService.get("bcrypt_saltRounds")
+            );
+        }
+        console.log(data);
+        const s = await this.userRepository.update(id, editUserDto);
+        console.log(s);
     }
 }
