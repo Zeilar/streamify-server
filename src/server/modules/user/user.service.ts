@@ -50,19 +50,15 @@ export class UserService {
             typeof idOrColumn === "number"
                 ? { id: idOrColumn }
                 : { [idOrColumn]: value };
-        const userCount = await this.userRepository.count({
-            where,
-        });
+        const userCount = await this.userRepository.count({ where });
         return userCount > 0;
     }
 
     public async create(userDto: CreateUserDto) {
-        const now = new Date();
         if (await this.exists("email", userDto.email)) {
-            throw new ConflictException(
-                "A user with that email already exists 2."
-            );
+            throw new ConflictException("That email is taken.");
         }
+        const now = new Date();
         const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         const user = this.userRepository.create({
             ...userDto,
@@ -76,6 +72,9 @@ export class UserService {
     }
 
     public async edit(id: FindOneId, editUserDto: EditUserDto) {
+        if (await this.exists("email", editUserDto.email)) {
+            throw new ConflictException("That email is taken.");
+        }
         const data: EditUserDto = {
             ...editUserDto,
         };
@@ -85,8 +84,6 @@ export class UserService {
                 this.configService.get("bcrypt_saltRounds")
             );
         }
-        console.log(data);
-        const s = await this.userRepository.update(id, editUserDto);
-        console.log(s);
+        await this.userRepository.update(id, data);
     }
 }
