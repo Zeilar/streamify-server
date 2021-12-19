@@ -4,9 +4,9 @@ import { compareSync } from "bcrypt";
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UserService) {}
+    public constructor(private readonly userService: UserService) {}
 
-    async validateUser(email: string, password: string) {
+    public async validateUser(email: string, password: string) {
         const user = await this.userService.findOne("email", email);
         if (!user) {
             throw new NotFoundException();

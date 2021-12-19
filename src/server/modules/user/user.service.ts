@@ -15,7 +15,7 @@ import { User } from "./user.entity";
 
 @Injectable()
 export class UserService {
-    constructor(
+    public constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         private readonly configService: ConfigService<BcryptConfig>

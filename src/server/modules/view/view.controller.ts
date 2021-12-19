@@ -4,7 +4,7 @@ import { ViewService } from "./view.service";
 
 @Controller()
 export class ViewController {
-    constructor(private readonly viewService: ViewService) {}
+    public constructor(private readonly viewService: ViewService) {}
 
     @Get("*")
     public serveClient(@Req() req: Request, @Res() res: Response) {

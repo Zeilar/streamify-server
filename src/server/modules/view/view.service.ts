@@ -9,7 +9,9 @@ import { EnvConfig } from "../../@types/config";
 export class ViewService implements OnModuleInit {
     private nextServer: NextServer;
 
-    constructor(private readonly configService: ConfigService<EnvConfig>) {}
+    public constructor(
+        private readonly configService: ConfigService<EnvConfig>
+    ) {}
 
     public getNextServer() {
         return this.nextServer;
