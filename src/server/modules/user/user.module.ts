@@ -9,9 +9,7 @@ import { UserService } from "./user.service";
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
-        ConfigModule.forRoot({
-            load: [bcrypt],
-        }),
+        ConfigModule.forRoot({ load: [bcrypt] }),
     ],
     controllers: [UserController],
     providers: [UserService],

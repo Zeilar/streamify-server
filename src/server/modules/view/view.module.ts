@@ -5,11 +5,7 @@ import { ViewController } from "./view.controller";
 import { ViewService } from "./view.service";
 
 @Module({
-    imports: [
-        ConfigModule.forRoot({
-            load: [env],
-        }),
-    ],
+    imports: [ConfigModule.forRoot({ load: [env] })],
     controllers: [ViewController],
     providers: [ViewService],
 })

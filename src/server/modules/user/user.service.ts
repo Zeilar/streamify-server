@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
-import { hashSync } from "bcrypt";
+import { hash } from "bcrypt";
 import { Repository } from "typeorm";
 import { BcryptConfig } from "../../@types/config";
 import { FindOneId } from "../../@types/repository";
@@ -64,7 +64,7 @@ export class UserService {
             ...userDto,
             createdAt: now,
             updatedAt: now,
-            password: hashSync(userDto.password, saltRounds),
+            password: await hash(userDto.password, saltRounds),
         });
         await this.userRepository.insert(user);
         const { password, ...result } = user;
@@ -77,7 +77,7 @@ export class UserService {
         }
         const data: EditUserDto = { ...editUserDto };
         if (editUserDto.password) {
-            data.password = hashSync(
+            data.password = await hash(
                 editUserDto.password,
                 this.configService.get("bcrypt_saltRounds")
             );
