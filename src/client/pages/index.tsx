@@ -1,3 +1,9 @@
-export default function App() {
-    return <div>Home page</div>;
+import Dropzone from "../components/Dropzone";
+
+export default function Home() {
+    return (
+        <div>
+            <Dropzone />
+        </div>
+    );
 }

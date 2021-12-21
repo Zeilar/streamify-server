@@ -1,0 +1,36 @@
+export const colors = {
+    primary: {
+        50: "#E5FFF3",
+        100: "#B8FFDC",
+        200: "#8AFFC6",
+        300: "#5CFFB0",
+        400: "#2EFF99",
+        500: "#00FF83",
+        600: "#00CC69",
+        700: "#00994E",
+        800: "#006634",
+        900: "#00331A",
+    },
+    secondary: {
+        50: "#E5F3FF",
+        100: "#B8DDFF",
+        200: "#8AC6FF",
+        300: "#5CB0FF",
+        400: "#2E9AFF",
+        500: "#0084FF",
+        600: "#006ACC",
+        700: "#004F99",
+        800: "#003566",
+        900: "#001A33",
+    },
+    danger: "#ff1744",
+    success: "var(--chakra-colors-green-600)",
+    body: "var(--chakra-colors-gray-900)",
+    text: {
+        default: "#ebf5ff",
+        muted: "#828c96",
+    },
+    border: {
+        default: "#828c96",
+    },
+};
