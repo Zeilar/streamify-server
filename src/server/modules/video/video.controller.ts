@@ -8,6 +8,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { VideoService } from "./video.service";
 import { ThrottlerGuard } from "@nestjs/throttler";
+import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 
 @Controller("/video")
 export class VideoController {
@@ -15,7 +16,7 @@ export class VideoController {
 
     @Post()
     @UseInterceptors(FileInterceptor("file"))
-    @UseGuards(ThrottlerGuard)
+    @UseGuards(AuthenticatedGuard, ThrottlerGuard)
     public async upload(@UploadedFile() video: Express.Multer.File) {
         await this.videoService.upload(video);
     }
