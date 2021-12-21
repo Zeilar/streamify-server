@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, PayloadTooLargeException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -40,7 +40,14 @@ export class VideoService {
     public async upload(video: Express.Multer.File) {
         const buffer = Buffer.from(video.buffer);
         const arrayBuffer = Uint8Array.from(buffer).buffer;
-        await this.firebaseService.uploadFile(this.generateId(), arrayBuffer);
+        if (
+            arrayBuffer.byteLength >
+            this.configService.get<number>("maxFileSize")
+        ) {
+            throw new PayloadTooLargeException();
+        }
+        const id = await this.generateId();
+        await this.firebaseService.uploadFile(id, arrayBuffer);
         // create()
     }
 }
