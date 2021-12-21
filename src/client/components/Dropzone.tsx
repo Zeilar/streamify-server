@@ -77,6 +77,15 @@ export default function Dropzone() {
         [isDragActive, isDragReject, isDragAccept]
     );
 
+    async function upload() {
+        const formData = new FormData();
+        formData.append("file", selectedVideo);
+        await fetch("/api/v1/video", {
+            method: "POST",
+            body: formData,
+        });
+    }
+
     return (
         <Flex flexDir="column" justifyContent="center" alignItems="center">
             <Text textAlign="center" textStyle="h1" mb="1rem">
@@ -104,7 +113,7 @@ export default function Dropzone() {
                 <Flex flexDir="column" alignItems="center">
                     <Player width="100%" url={preview} />
                     <Text textStyle="h2">Looking good?</Text>
-                    <Button>Upload</Button>
+                    <Button onClick={upload}>Upload</Button>
                 </Flex>
             )}
         </Flex>

@@ -1,4 +1,4 @@
 export default () =>
     ({
-        idLength: 6,
+        videoIdLength: 6,
     } as const);

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { UserService } from "../user/user.service";
-import { compareSync } from "bcrypt";
+import { compare } from "bcrypt";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
         if (!user) {
             throw new NotFoundException();
         }
-        if (compareSync(password, user.password)) {
+        if (await compare(password, user.password)) {
             const { password, ...rest } = user;
             return rest;
         }
