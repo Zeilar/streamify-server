@@ -3,6 +3,7 @@ import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { EditUserGuard } from "../../common/guards/editUser.guard";
 import { UserExistsGuard } from "../../common/guards/userExists.guard";
 import { EditUserDto } from "../../common/validators/editUser.validator";
+import { FindOneParam } from "../../common/validators/findOneParam.validator";
 import { UserService } from "./user.service";
 
 @Controller("/users")
@@ -18,9 +19,8 @@ export class UserController {
     @Put("/:id")
     public async edit(
         @Body() editUserDto: EditUserDto,
-        @Param("id") id: number
+        @Param() params: FindOneParam
     ) {
-        await this.userService.edit(id, editUserDto);
-        return;
+        await this.userService.edit(params.id, editUserDto);
     }
 }

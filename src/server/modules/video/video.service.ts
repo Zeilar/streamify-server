@@ -1,12 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { VideoConfig } from "../../@types/config";
+import { Video } from "./video.entity";
 
 @Injectable()
 export class VideoService {
     public constructor(
-        // @InjectRepository(User)
-        // private readonly userRepository: Repository<User>,
+        @InjectRepository(Video)
+        private readonly videoRepository: Repository<Video>,
         private readonly configService: ConfigService<VideoConfig>
     ) {}
 
@@ -23,5 +26,10 @@ export class VideoService {
                     ]
             )
             .join("");
+    }
+
+    public async exists(id: string) {
+        const userCount = await this.videoRepository.count({ where: { id } });
+        return userCount > 0;
     }
 }

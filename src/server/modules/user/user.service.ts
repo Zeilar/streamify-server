@@ -62,7 +62,7 @@ export class UserService {
         if (await this.exists("email", userDto.email)) {
             throw new ConflictException("That email is taken.");
         }
-        const now = new Date();
+        const now = new Date().toISOString();
         const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         const user = this.userRepository.create({
             ...userDto,

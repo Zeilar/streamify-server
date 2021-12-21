@@ -1,10 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { UserSchema } from "../../@types/user";
+import { Video } from "../video/video.entity";
 
 @Entity()
 export class User implements UserSchema {
     @PrimaryGeneratedColumn()
     public id: number;
+
+    @OneToMany(() => Video, (video) => video.user, { cascade: true })
+    public videos: Video[];
 
     @Column()
     public displayName: string;
@@ -16,8 +20,8 @@ export class User implements UserSchema {
     public password: string;
 
     @Column({ type: "timestamp" })
-    public createdAt: Date;
+    public createdAt: string;
 
     @Column({ type: "timestamp" })
-    public updatedAt: Date;
+    public updatedAt: string;
 }
