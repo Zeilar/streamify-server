@@ -12,8 +12,8 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { VideoService } from "./video.service";
 import { ThrottlerGuard } from "@nestjs/throttler";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
-import { FindOneParams } from "../../common/validators/findOneParams.validator";
 import { Request } from "express";
+import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
 
 @Controller("/video")
 export class VideoController {
@@ -29,8 +29,8 @@ export class VideoController {
         await this.videoService.upload(video, req.user.id);
     }
 
-    @Get()
-    public async getVideoById(@Param() params: FindOneParams) {
-        // await
+    @Get("/:id")
+    public async getVideoById(@Param() params: FindOneVideoParams) {
+        return await this.videoService.findById(params.id);
     }
 }

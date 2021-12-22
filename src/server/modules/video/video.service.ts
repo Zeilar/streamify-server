@@ -1,6 +1,7 @@
 import {
     Injectable,
     InternalServerErrorException,
+    NotFoundException,
     PayloadTooLargeException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -69,7 +70,11 @@ export class VideoService {
         });
     }
 
-    public async findById() {
-        //
+    public async findById(id: FindOneId) {
+        const video = await this.videoRepository.findOne(id);
+        if (!video) {
+            throw new NotFoundException();
+        }
+        return video;
     }
 }
