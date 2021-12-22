@@ -62,13 +62,12 @@ export class VideoService {
             );
         }
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
-        const video = this.videoRepository.create({
+        await this.videoRepository.insert({
             id: videoId,
             title: "My video",
             visibility: Visibility.PUBLIC,
             user,
         });
-        await this.create(video);
     }
 
     public async findById(id: FindOneId) {
@@ -77,9 +76,5 @@ export class VideoService {
             throw new NotFoundException();
         }
         return video;
-    }
-
-    public async create(video: any) {
-        await this.videoRepository.insert(video);
     }
 }
