@@ -6,6 +6,7 @@ import {
     uploadBytes,
     getStorage,
     FirebaseStorage,
+    getDownloadURL,
 } from "firebase/storage";
 
 @Injectable()
@@ -15,7 +16,7 @@ export class FirebaseService {
 
     public constructor(private readonly configService: ConfigService) {}
 
-    public init() {
+    public async init() {
         this.app = initializeApp({
             apiKey: this.configService.get<string>("FIREBASE_API_KEY"),
             authDomain: this.configService.get<string>("FIREBASE_AUTH_DOMAIN"),
@@ -29,9 +30,14 @@ export class FirebaseService {
             appId: this.configService.get<string>("FIREBASE_APP_ID"),
         });
         this.storage = getStorage();
+        // console.log(await getDownloadURL(ref(getStorage(), "/videos/6jy4U2")));
     }
 
     public async uploadFile(id: string, file: ArrayBufferLike) {
-        await uploadBytes(ref(getStorage(), `/videos/${id}`), file);
+        await uploadBytes(ref(this.storage, `/videos/${id}`), file);
+    }
+
+    public async findFile() {
+        const storage = getStorage();
     }
 }

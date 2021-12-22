@@ -6,6 +6,7 @@ import env from "../../config/env";
 @Module({
     imports: [ConfigModule.forRoot({ load: [env] })],
     providers: [FirebaseService],
+    exports: [FirebaseService],
 })
 export class FirebaseModule implements OnModuleInit {
     public constructor(private readonly firebaseService: FirebaseService) {}
