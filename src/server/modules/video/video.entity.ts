@@ -23,7 +23,7 @@ export class Video implements VideoSchema {
     @ManyToOne(() => User, (user) => user.videos)
     public user: User;
 
-    @Column({ unique: true, type: "text" })
+    @Column()
     public title: string;
 
     @Column({ type: "enum", default: Visibility.PUBLIC, enum: Visibility })
