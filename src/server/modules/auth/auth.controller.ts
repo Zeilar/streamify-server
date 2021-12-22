@@ -25,4 +25,9 @@ export class AuthController {
     public whoami(@Req() req: Request) {
         return req.user;
     }
+
+    @Get("/logout")
+    public logout(@Req() req: Request) {
+        req.logOut();
+    }
 }
