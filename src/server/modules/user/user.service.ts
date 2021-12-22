@@ -66,8 +66,6 @@ export class UserService {
         const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         const user = this.userRepository.create({
             ...userDto,
-            createdAt: now,
-            updatedAt: now,
             password: await hash(userDto.password, saltRounds),
         });
         await this.userRepository.insert(user);

@@ -7,9 +7,11 @@ import { FirebaseService } from "../firebase/firebase.service";
 import { VideoController } from "./video.controller";
 import { Video } from "./video.entity";
 import { VideoService } from "./video.service";
+import { UserModule } from "../user/user.module";
 
 @Module({
     imports: [
+        UserModule,
         TypeOrmModule.forFeature([Video]),
         ConfigModule.forRoot({ load: [video] }),
         ThrottlerModule.forRoot({

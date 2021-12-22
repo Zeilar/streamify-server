@@ -19,9 +19,9 @@ export class User implements UserSchema {
     @Column()
     public password: string;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     public createdAt: string;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     public updatedAt: string;
 }

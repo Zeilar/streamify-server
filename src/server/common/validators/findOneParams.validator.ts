@@ -1,6 +1,6 @@
 import { IsNumberString } from "class-validator";
 
-export class FindOneParam {
+export class FindOneParams {
     @IsNumberString()
     id: number;
 }

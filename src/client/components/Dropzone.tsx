@@ -111,7 +111,7 @@ export default function Dropzone() {
             </Box>
             {preview && (
                 <Flex flexDir="column" alignItems="center">
-                    <Player width="100%" url={preview} />
+                    <Player width="100%" url={preview} controls />
                     <Text textStyle="h2">Looking good?</Text>
                     <Button onClick={upload}>Upload</Button>
                 </Flex>

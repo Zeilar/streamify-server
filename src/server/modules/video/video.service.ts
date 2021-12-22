@@ -1,10 +1,16 @@
-import { Injectable, PayloadTooLargeException } from "@nestjs/common";
+import {
+    Injectable,
+    InternalServerErrorException,
+    PayloadTooLargeException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { VideoConfig } from "../../@types/config";
+import { FindOneId } from "../../@types/repository";
 import { FirebaseService } from "../firebase/firebase.service";
-import { Video } from "./video.entity";
+import { UserService } from "../user/user.service";
+import { Video, Visibility } from "./video.entity";
 
 @Injectable()
 export class VideoService {
@@ -12,6 +18,7 @@ export class VideoService {
         @InjectRepository(Video)
         private readonly videoRepository: Repository<Video>,
         private readonly configService: ConfigService<VideoConfig>,
+        private readonly userService: UserService,
         private readonly firebaseService: FirebaseService
     ) {}
 
@@ -37,7 +44,7 @@ export class VideoService {
         return userCount > 0;
     }
 
-    public async upload(video: Express.Multer.File) {
+    public async upload(video: Express.Multer.File, userId: FindOneId) {
         const buffer = Buffer.from(video.buffer);
         const arrayBuffer = Uint8Array.from(buffer).buffer;
         if (
@@ -46,8 +53,23 @@ export class VideoService {
         ) {
             throw new PayloadTooLargeException();
         }
-        const id = await this.generateId();
-        await this.firebaseService.uploadFile(id, arrayBuffer);
-        // create()
+        const videoId = await this.generateId();
+        const user = await this.userService.findById(userId);
+        if (!user) {
+            throw new InternalServerErrorException(
+                "The user that uploaded this video could not be found."
+            );
+        }
+        await this.firebaseService.uploadFile(videoId, arrayBuffer);
+        await this.videoRepository.insert({
+            id: videoId,
+            title: "My video",
+            visibility: Visibility.PUBLIC,
+            user,
+        });
+    }
+
+    public async findById() {
+        //
     }
 }

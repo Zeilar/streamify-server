@@ -29,9 +29,9 @@ export class Video implements VideoSchema {
     @Column({ type: "enum", default: Visibility.PUBLIC, enum: Visibility })
     public visibility: Visibility;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     public createdAt: string;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     public updatedAt: string;
 }
