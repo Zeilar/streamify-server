@@ -93,7 +93,7 @@ export default function Dropzone() {
             </Text>
             <Box {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <Text>Drop your video in here or click to select it</Text>
+                <Text>Drop your video here or click to select it</Text>
             </Box>
             <Text
                 textAlign="center"
