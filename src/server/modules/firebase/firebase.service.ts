@@ -33,8 +33,8 @@ export class FirebaseService {
         // console.log(await getDownloadURL(ref(getStorage(), "/videos/6jy4U2")));
     }
 
-    public async uploadFile(id: string, file: ArrayBufferLike) {
-        await uploadBytes(ref(this.storage, `/videos/${id}`), file);
+    public async uploadVideo(id: string, videoFile: ArrayBufferLike) {
+        await uploadBytes(ref(this.storage, `/videos/${id}`), videoFile);
     }
 
     public async findFile() {

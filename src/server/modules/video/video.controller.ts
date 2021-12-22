@@ -1,6 +1,7 @@
 import {
     Controller,
     Get,
+    HttpCode,
     Param,
     Post,
     Req,
@@ -19,9 +20,10 @@ import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.v
 export class VideoController {
     public constructor(private readonly videoService: VideoService) {}
 
-    @Post()
+    @Post("/")
     @UseInterceptors(FileInterceptor("file"))
     @UseGuards(AuthenticatedGuard, ThrottlerGuard)
+    @HttpCode(204)
     public async upload(
         @UploadedFile() video: Express.Multer.File,
         @Req() req: Request

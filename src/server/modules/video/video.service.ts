@@ -45,8 +45,8 @@ export class VideoService {
         return userCount > 0;
     }
 
-    public async upload(video: Express.Multer.File, userId: FindOneId) {
-        const buffer = Buffer.from(video.buffer);
+    public async upload(videoFile: Express.Multer.File, userId: FindOneId) {
+        const buffer = Buffer.from(videoFile.buffer);
         const arrayBuffer = Uint8Array.from(buffer).buffer;
         if (
             arrayBuffer.byteLength >
@@ -61,13 +61,14 @@ export class VideoService {
                 "The user that uploaded this video could not be found."
             );
         }
-        await this.firebaseService.uploadFile(videoId, arrayBuffer);
-        await this.videoRepository.insert({
+        await this.firebaseService.uploadVideo(videoId, arrayBuffer);
+        const video = this.videoRepository.create({
             id: videoId,
             title: "My video",
             visibility: Visibility.PUBLIC,
             user,
         });
+        await this.create(video);
     }
 
     public async findById(id: FindOneId) {
@@ -76,5 +77,9 @@ export class VideoService {
             throw new NotFoundException();
         }
         return video;
+    }
+
+    public async create(video: any) {
+        await this.videoRepository.insert(video);
     }
 }
