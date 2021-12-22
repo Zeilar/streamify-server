@@ -3,15 +3,13 @@ import {
     Injectable,
     NotFoundException,
 } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
-import { hash } from "bcrypt";
 import { Repository } from "typeorm";
-import { BcryptConfig } from "../../@types/config";
 import { FindOneId } from "../../@types/repository";
 import { UserSchema } from "../../@types/user";
 import { EditUserDto } from "../../common/validators/editUser.validator";
 import { CreateUserDto } from "../../common/validators/register.validator";
+import { HashService } from "../hash/hash.service";
 import { User } from "./user.entity";
 
 @Injectable()
@@ -19,7 +17,7 @@ export class UserService {
     public constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        private readonly configService: ConfigService<BcryptConfig>
+        private readonly hashService: HashService
     ) {}
 
     public async all() {
@@ -62,11 +60,9 @@ export class UserService {
         if (await this.exists("email", userDto.email)) {
             throw new ConflictException("That email is taken.");
         }
-        const now = new Date().toISOString();
-        const saltRounds = this.configService.get<number>("bcrypt_saltRounds");
         const user = this.userRepository.create({
             ...userDto,
-            password: await hash(userDto.password, saltRounds),
+            password: await this.hashService.hash(userDto.password),
         });
         await this.userRepository.insert(user);
         const { password, ...result } = user;
@@ -78,13 +74,10 @@ export class UserService {
             throw new ConflictException("That email is taken.");
         }
         const data: EditUserDto = { ...editUserDto };
-        // Using TypeORM entity events don't work when calling update like this as it doesn't create an instance
         if (editUserDto.password) {
-            data.password = await hash(
-                editUserDto.password,
-                this.configService.get("bcrypt_saltRounds")
-            );
+            data.password = await this.hashService.hash(editUserDto.password);
         }
+        // Using TypeORM entity events don't work when calling update like this as it doesn't create an instance
         await this.userRepository.update(id, data);
     }
 }

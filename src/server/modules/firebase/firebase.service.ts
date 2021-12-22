@@ -29,7 +29,7 @@ export class FirebaseService {
             ),
             appId: this.configService.get<string>("FIREBASE_APP_ID"),
         });
-        this.storage = getStorage();
+        this.storage = getStorage(this.app);
         // console.log(await getDownloadURL(ref(getStorage(), "/videos/6jy4U2")));
     }
 
