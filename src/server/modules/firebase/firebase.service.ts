@@ -38,7 +38,7 @@ export class FirebaseService {
         });
     }
 
-    public async findFile() {
-        const storage = getStorage();
+    public async getVideoFileUrl(id: string) {
+        return await getDownloadURL(ref(this.storage, `/videos/${id}`));
     }
 }

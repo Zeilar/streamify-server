@@ -15,6 +15,7 @@ import { ThrottlerGuard } from "@nestjs/throttler";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { Request } from "express";
 import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
+import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
 
 @Controller("/video")
 export class VideoController {
@@ -32,7 +33,10 @@ export class VideoController {
     }
 
     @Get("/:id")
+    @UseGuards(VideoExistsGuard)
     public async getVideoById(@Param() params: FindOneVideoParams) {
-        return await this.videoService.findById(params.id);
+        const video = await this.videoService.findById(params.id);
+        const videoUrl = await this.videoService.getFileUrl(params.id);
+        return { video, videoUrl };
     }
 }

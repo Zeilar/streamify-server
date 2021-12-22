@@ -67,7 +67,6 @@ export class VideoService {
                 "The user that uploaded this video could not be found."
             );
         }
-        // console.log(fileTypeFromBuffer(arrayBuffer));
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
         await this.videoRepository.insert({
             id: videoId,
@@ -83,5 +82,12 @@ export class VideoService {
             throw new NotFoundException();
         }
         return video;
+    }
+
+    public async getFileUrl(id: string) {
+        if (!(await this.exists(id))) {
+            throw new NotFoundException();
+        }
+        return await this.firebaseService.getVideoFileUrl(id);
     }
 }
