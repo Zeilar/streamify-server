@@ -79,7 +79,7 @@ export default function Dropzone() {
 
     async function upload() {
         const formData = new FormData();
-        formData.append("file", selectedVideo);
+        formData.append("video", selectedVideo);
         await fetch("/api/v1/video", {
             method: "POST",
             body: formData,

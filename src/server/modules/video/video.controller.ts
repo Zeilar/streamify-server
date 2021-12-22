@@ -21,7 +21,7 @@ export class VideoController {
     public constructor(private readonly videoService: VideoService) {}
 
     @Post("/")
-    @UseInterceptors(FileInterceptor("file"))
+    @UseInterceptors(FileInterceptor("video"))
     @UseGuards(AuthenticatedGuard, ThrottlerGuard)
     @HttpCode(204)
     public async upload(
