@@ -42,16 +42,14 @@ export class UserService {
         return await this.findOne("id", id);
     }
 
-    public async exists(idOrcolumn: number): Promise<boolean>;
+    public async exists(idOrcolumn: FindOneId): Promise<boolean>;
     public async exists(
         idOrColumn: keyof UserSchema,
         value: any
     ): Promise<boolean>;
-    public async exists(idOrColumn: keyof UserSchema | number, value?: any) {
+    public async exists(idOrColumn: keyof UserSchema | FindOneId, value?: any) {
         const where =
-            typeof idOrColumn === "number"
-                ? { id: idOrColumn }
-                : { [idOrColumn]: value };
+            value !== undefined ? { [idOrColumn]: value } : { id: idOrColumn };
         const userCount = await this.userRepository.count({ where });
         return userCount > 0;
     }

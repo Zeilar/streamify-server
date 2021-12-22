@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    Param,
+    Put,
+    UseGuards,
+} from "@nestjs/common";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { EditUserGuard } from "../../common/guards/editUser.guard";
 import { UserExistsGuard } from "../../common/guards/userExists.guard";
@@ -16,6 +24,7 @@ export class UserController {
     }
 
     @UseGuards(UserExistsGuard, AuthenticatedGuard, EditUserGuard)
+    @HttpCode(204)
     @Put("/:id")
     public async edit(
         @Body() editUserDto: EditUserDto,
