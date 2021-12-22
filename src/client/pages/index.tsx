@@ -1,18 +1,21 @@
 import { Button } from "@chakra-ui/react";
 import Dropzone from "../components/Dropzone";
+import axios from "axios";
 
 export default function Home() {
     async function login() {
-        await fetch("/api/v1/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        await axios.post(
+            "/api/v1/auth/login",
+            {
                 email: "philip@angelin.dev",
                 password: "123",
-            }),
-        });
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
     }
 
     return (

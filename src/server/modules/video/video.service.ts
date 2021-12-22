@@ -3,6 +3,7 @@ import {
     InternalServerErrorException,
     NotFoundException,
     PayloadTooLargeException,
+    UnsupportedMediaTypeException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -12,6 +13,7 @@ import { FindOneId } from "../../@types/repository";
 import { FirebaseService } from "../firebase/firebase.service";
 import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
+import { fromBuffer } from "file-type";
 
 @Injectable()
 export class VideoService {
@@ -54,6 +56,10 @@ export class VideoService {
         ) {
             throw new PayloadTooLargeException();
         }
+        const { mime } = await fromBuffer(arrayBuffer);
+        if (mime !== "video/mp4") {
+            throw new UnsupportedMediaTypeException();
+        }
         const videoId = await this.generateId();
         const user = await this.userService.findById(userId);
         if (!user) {
@@ -61,6 +67,7 @@ export class VideoService {
                 "The user that uploaded this video could not be found."
             );
         }
+        // console.log(fileTypeFromBuffer(arrayBuffer));
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
         await this.videoRepository.insert({
             id: videoId,

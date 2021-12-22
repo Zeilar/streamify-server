@@ -16,7 +16,7 @@ export class FirebaseService {
 
     public constructor(private readonly configService: ConfigService) {}
 
-    public init() {
+    public async init() {
         this.app = initializeApp({
             apiKey: this.configService.get<string>("FIREBASE_API_KEY"),
             authDomain: this.configService.get<string>("FIREBASE_AUTH_DOMAIN"),
@@ -30,11 +30,12 @@ export class FirebaseService {
             appId: this.configService.get<string>("FIREBASE_APP_ID"),
         });
         this.storage = getStorage(this.app);
-        // console.log(await getDownloadURL(ref(getStorage(), "/videos/6jy4U2")));
     }
 
     public async uploadVideo(id: string, videoFile: ArrayBufferLike) {
-        await uploadBytes(ref(this.storage, `/videos/${id}`), videoFile);
+        await uploadBytes(ref(this.storage, `/videos/${id}`), videoFile, {
+            contentType: "video/mp4",
+        });
     }
 
     public async findFile() {

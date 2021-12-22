@@ -51,7 +51,7 @@ export default function Dropzone() {
         isDragAccept,
         isDragReject,
     } = useDropzone({
-        accept: fileConfig.accept,
+        accept: ".mp4",
         maxFiles: 1,
         maxSize: fileConfig.maxSize,
         onDropRejected: (rejections) => setErrors(rejections[0].errors), // If maxFiles is greater than 1, this must be fixed
