@@ -1,27 +1,39 @@
 import { Button } from "@chakra-ui/react";
 import Dropzone from "../components/Dropzone";
-import axios from "axios";
+import { useRouter } from "next/router";
+import { useInject, useAuth } from "../hooks";
 
 export default function Home() {
-    async function login() {
-        await axios.post(
-            "/api/v1/auth/login",
+    const router = useRouter();
+    const { apiService } = useInject();
+    const { login } = useAuth();
+
+    async function loginSubmit() {
+        await login({
+            email: "philip@angelin.dev",
+            password: "123",
+        });
+    }
+
+    async function upload(file: File) {
+        const formData = new FormData();
+        formData.append("video", file);
+        const response = await apiService.request<{ id: string }>(
+            "/api/v1/video",
             {
-                email: "philip@angelin.dev",
-                password: "123",
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                method: "POST",
+                data: formData,
             }
         );
+        if (response.ok) {
+            router.push(`/video/${response.data.id}`);
+        }
     }
 
     return (
         <div>
-            <Dropzone />
-            <Button onClick={login}>Login</Button>
+            <Dropzone onSubmit={upload} />
+            <Button onClick={loginSubmit}>Login</Button>
         </div>
     );
 }

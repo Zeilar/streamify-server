@@ -1,15 +1,18 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { useDropzone, FileError } from "react-dropzone";
 import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
 import Player from "../components/Player";
 import { Button } from "@chakra-ui/button";
-import { useRouter } from "next/router";
 
 enum ErrorDict {
     "file-too-large" = "The video is too large.",
     "file-invalid-type" = "Invalid file type.",
+}
+
+interface Props {
+    onSubmit(file: File): void;
 }
 
 const baseStyle: CSSProperties = {
@@ -41,8 +44,7 @@ const rejectStyle = {
     borderColor: "var(--chakra-colors-danger)",
 };
 
-export default function Dropzone() {
-    const router = useRouter();
+export default function Dropzone({ onSubmit }: Props) {
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
     const {
@@ -61,7 +63,7 @@ export default function Dropzone() {
         onDrop: () => setPreview(null),
     });
 
-    const selectedVideo = useMemo(() => acceptedFiles[0], [acceptedFiles]);
+    const selectedVideo = acceptedFiles[0];
 
     useEffect(() => {
         if (selectedVideo) {
@@ -69,28 +71,12 @@ export default function Dropzone() {
         }
     }, [selectedVideo]);
 
-    const style = useMemo(
-        () => ({
-            ...baseStyle,
-            ...(isDragActive ? activeStyle : {}),
-            ...(isDragAccept ? acceptStyle : {}),
-            ...(isDragReject ? rejectStyle : {}),
-        }),
-        [isDragActive, isDragReject, isDragAccept]
-    );
-
-    async function upload() {
-        const formData = new FormData();
-        formData.append("video", selectedVideo);
-        const response = await fetch("/api/v1/video", {
-            method: "POST",
-            body: formData,
-        });
-        if (response.ok) {
-            const data = await response.json();
-            router.push(`/video/${data.id}`);
-        }
-    }
+    const style = {
+        ...baseStyle,
+        ...(isDragActive ? activeStyle : {}),
+        ...(isDragAccept ? acceptStyle : {}),
+        ...(isDragReject ? rejectStyle : {}),
+    };
 
     return (
         <Flex flexDir="column" justifyContent="center" alignItems="center">
@@ -119,7 +105,9 @@ export default function Dropzone() {
                 <Flex flexDir="column" alignItems="center">
                     <Player src={preview} />
                     <Text textStyle="h2">Looking good?</Text>
-                    <Button onClick={upload}>Upload</Button>
+                    <Button onClick={() => onSubmit(selectedVideo)}>
+                        Upload
+                    </Button>
                 </Flex>
             )}
         </Flex>
