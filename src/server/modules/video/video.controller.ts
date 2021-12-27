@@ -24,12 +24,12 @@ export class VideoController {
     @Post("/")
     @UseInterceptors(FileInterceptor("video"))
     @UseGuards(AuthenticatedGuard, ThrottlerGuard)
-    @HttpCode(204)
     public async upload(
         @UploadedFile() video: Express.Multer.File,
         @Req() req: Request
     ) {
-        await this.videoService.upload(video, req.user.id);
+        const id = await this.videoService.upload(video, req.user.id);
+        return { id };
     }
 
     @Get("/:id")

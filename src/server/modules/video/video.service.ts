@@ -26,7 +26,7 @@ export class VideoService {
     ) {}
 
     // To make sure the resulting id is always the same length
-    public async generateId() {
+    public async generateId(): Promise<string> {
         const base58alphabet =
             "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
         const id = Array(this.configService.get<number>("videoIdLength"))
@@ -74,6 +74,7 @@ export class VideoService {
             visibility: Visibility.PUBLIC,
             user,
         });
+        return videoId;
     }
 
     public async findById(id: FindOneId) {

@@ -3,8 +3,9 @@ import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { useDropzone, FileError } from "react-dropzone";
 import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
-import Player from "react-player";
+import Player from "../components/Player";
 import { Button } from "@chakra-ui/button";
+import { useRouter } from "next/router";
 
 enum ErrorDict {
     "file-too-large" = "The video is too large.",
@@ -41,6 +42,7 @@ const rejectStyle = {
 };
 
 export default function Dropzone() {
+    const router = useRouter();
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
     const {
@@ -80,10 +82,14 @@ export default function Dropzone() {
     async function upload() {
         const formData = new FormData();
         formData.append("video", selectedVideo);
-        await fetch("/api/v1/video", {
+        const response = await fetch("/api/v1/video", {
             method: "POST",
             body: formData,
         });
+        if (response.ok) {
+            const data = await response.json();
+            router.push(`/video/${data.id}`);
+        }
     }
 
     return (
@@ -111,7 +117,7 @@ export default function Dropzone() {
             </Box>
             {preview && (
                 <Flex flexDir="column" alignItems="center">
-                    <Player width="100%" url={preview} controls />
+                    <Player src={preview} />
                     <Text textStyle="h2">Looking good?</Text>
                     <Button onClick={upload}>Upload</Button>
                 </Flex>

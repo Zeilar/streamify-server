@@ -61,5 +61,10 @@ export const Button: StyleConfig = {
         unstyled: {
             border: 0,
         },
+        icon: {
+            border: 0,
+            padding: "0.75rem",
+            paddingInline: "0.75rem",
+        },
     },
 };
