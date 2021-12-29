@@ -1,12 +1,12 @@
-import { ChakraProvider, Flex, theme } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
 import { AppProps } from "next/app";
-import theme2 from "../theme/index";
+import theme from "../theme/index";
 import { DependencyContextProvider } from "../contexts/DependencyContext";
 import { AuthContextProvider } from "../contexts/AuthContext";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ChakraProvider theme={theme2}>
+        <ChakraProvider theme={theme}>
             <DependencyContextProvider>
                 <AuthContextProvider>
                     <Flex justifyContent="center">
