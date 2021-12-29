@@ -39,4 +39,9 @@ export class VideoController {
         const videoUrl = await this.videoService.getFileUrl(params.id);
         return { video, videoUrl };
     }
+
+    @Get("/public")
+    public async getPublic() {
+        //
+    }
 }

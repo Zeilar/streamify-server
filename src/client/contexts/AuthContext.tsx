@@ -26,7 +26,7 @@ export function AuthContextProvider({ children }: AuthProps) {
             method: "POST",
             data: { ...payload },
         });
-        if (response.ok) {
+        if (response?.ok) {
             setUser(response.data);
         }
         return response.ok;

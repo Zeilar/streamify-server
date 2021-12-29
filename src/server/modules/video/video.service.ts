@@ -91,4 +91,12 @@ export class VideoService {
         }
         return await this.firebaseService.getVideoFileUrl(id);
     }
+
+    public async getPublic() {
+        return await this.videoRepository.find({
+            where: { visibility: Visibility.PUBLIC },
+            take: 30,
+            skip: 30,
+        });
+    }
 }

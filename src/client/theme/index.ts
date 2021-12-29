@@ -1,7 +1,7 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, theme } from "@chakra-ui/react";
 import { colors } from "./colors";
 import * as components from "./components";
-// import { config } from "./config";
+import { config } from "./config";
 import { fonts } from "./fonts";
 // import { shadows } from "./shadows";
 import { styles } from "./styles";
@@ -11,11 +11,11 @@ import { textStyles } from "./textStyles";
 
 export default extendTheme(
     {
-        // config,
+        config,
         colors,
         // shadows,
         fonts,
-        components,
+        components: { ...theme.components, ...components },
         styles,
         // breakpoints,
         textStyles,
