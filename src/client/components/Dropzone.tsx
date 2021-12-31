@@ -79,7 +79,12 @@ export default function Dropzone({ onSubmit }: Props) {
     };
 
     return (
-        <Flex flexDir="column" justifyContent="center" alignItems="center">
+        <Flex
+            flexDir="column"
+            justifyContent="center"
+            alignItems="center"
+            w="100%"
+        >
             <Box {...getRootProps({ style })}>
                 <input {...getInputProps()} />
                 <Text>Drop your video here or click to select it</Text>
@@ -101,7 +106,9 @@ export default function Dropzone({ onSubmit }: Props) {
             {preview && (
                 <Flex flexDir="column" alignItems="center">
                     <Player src={preview} />
-                    <Text textStyle="h2">Looking good?</Text>
+                    <Text as="h2" textStyle="h2">
+                        Looking good?
+                    </Text>
                     <Button onClick={() => onSubmit(selectedVideo)}>
                         Upload
                     </Button>

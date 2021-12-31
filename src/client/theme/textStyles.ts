@@ -27,5 +27,8 @@ export const textStyles = {
         p: {
             fontSize: "1rem",
         },
+        a: {
+            fontSize: "1rem",
+        },
     },
 };

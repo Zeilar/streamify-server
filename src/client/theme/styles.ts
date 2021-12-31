@@ -7,10 +7,12 @@ export const styles = {
             borderColor: "border.default",
         },
         body: {
+            display: "flex",
             minHeight: "100vh",
             backgroundColor: "body",
             overflowX: "hidden",
             color: "text.default",
+            justifyContent: "center",
             // "::-webkit-scrollbar-thumb": {
             //     backgroundColor: "brand.default",
             //     backgroundClip: "padding-box",

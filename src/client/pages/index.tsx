@@ -1,6 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/spinner";
-import { Input } from "@chakra-ui/input";
+import { Button, Flex, Progress, Text } from "@chakra-ui/react";
 import Dropzone from "../components/Dropzone";
 import { useRouter } from "next/router";
 import { useInject, useAuth } from "../hooks";
@@ -11,6 +9,7 @@ export default function Home() {
     const { apiService } = useInject();
     const { login } = useAuth();
     const [uploading, setUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     async function loginSubmit() {
         await login({
@@ -19,6 +18,8 @@ export default function Home() {
         });
     }
 
+    console.log(progress);
+
     async function upload(file: File) {
         const formData = new FormData();
         formData.append("video", file);
@@ -26,30 +27,37 @@ export default function Home() {
         const response = await apiService.request<{ id: string }>("/video", {
             method: "POST",
             data: formData,
-            onUploadProgress: (e) => console.log(e),
+            onUploadProgress: (e: ProgressEvent) => {
+                setProgress(Math.round((e.loaded * 100) / e.total));
+            },
         });
-        setUploading(false);
         if (response?.ok) {
             router.push(`/video/${response.data.id}`);
+        } else {
+            setUploading(false);
         }
     }
 
     return (
-        <div>
-            <Text textAlign="center" textStyle="h1" mb="1rem">
+        <Flex flexDir="column" alignItems="center">
+            <Text textAlign="center" as="h2" textStyle="h2" mb="1rem">
                 Upload video
             </Text>
-            {true && (
-                <Spinner
-                    emptyColor="gray.500"
-                    color="primary.500"
-                    size="xl"
-                    speed="0.75s"
-                />
+            {uploading && (
+                <Flex w="100%" flexDir="column">
+                    <Text
+                        textAlign="center"
+                        as="h6"
+                        textStyle="h6"
+                        mb="0.25rem"
+                    >
+                        Your video is being uploaded
+                    </Text>
+                    <Progress w="100%" value={progress} hasStripe isAnimated />
+                </Flex>
             )}
             {!uploading && <Dropzone onSubmit={upload} />}
             <Button onClick={loginSubmit}>Login</Button>
-            <Input />
-        </div>
+        </Flex>
     );
 }
