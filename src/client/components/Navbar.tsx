@@ -1,19 +1,16 @@
 import { Flex } from "@chakra-ui/react";
 import NavLink from "./NavLink";
+import AuthModal from "./AuthModal";
 
 export default function Navbar() {
     return (
-        <Flex as="nav">
+        <Flex as="nav" py="1rem">
             <Flex gridGap="1rem">
-                <NavLink textStyle="h4" href="/">
-                    mp4
-                </NavLink>
-                <NavLink textStyle="h4" href="/browse">
-                    Browse
-                </NavLink>
+                <NavLink href="/">mp4</NavLink>
+                <NavLink href="/browse">Browse</NavLink>
             </Flex>
             <Flex ml="auto" gridGap="1rem">
-                Open Register
+                <AuthModal />
             </Flex>
         </Flex>
     );

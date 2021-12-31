@@ -8,7 +8,7 @@ export const styles = {
         },
         body: {
             display: "flex",
-            minHeight: "100vh",
+            minHeight: "100vh !important", // Due to Chakra default styling
             backgroundColor: "body",
             overflowX: "hidden",
             color: "text.default",

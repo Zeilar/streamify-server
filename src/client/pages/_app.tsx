@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <CSSReset />
             <DependencyContextProvider>
                 <AuthContextProvider>
-                    <Flex flexDir="column" w="65rem">
+                    <Flex flexDir="column" w="65rem" h="100%">
                         <Navbar />
                         <Component {...pageProps} />
                     </Flex>
