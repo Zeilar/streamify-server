@@ -11,11 +11,12 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useToast,
     useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm, UseFormHandleSubmit } from "react-hook-form";
-import { useInject } from "../hooks";
+import { useAuth, useInject } from "../hooks";
 
 type Tab = "login" | "register";
 
@@ -26,12 +27,15 @@ interface Fields {
 
 export default function AuthModal() {
     const state = useDisclosure();
+    const toast = useToast();
+    const { setUser } = useAuth();
     const { apiService } = useInject();
     const [activeTab, setActiveTab] = useState<Tab>("register");
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
+        reset,
     } = useForm<Fields>();
 
     function openModal(tab: Tab) {
@@ -40,12 +44,19 @@ export default function AuthModal() {
     }
 
     async function onSubmit(values: UseFormHandleSubmit<Fields>) {
-        const { data, ok } = await apiService.request("/auth/register", {
+        const { data, ok } = await apiService.request<any>("/auth/register", {
             data: values,
             method: "POST",
         });
         if (ok) {
-            console.log("got", data);
+            toast({
+                title: "Registration successful!",
+                description: "",
+                status: "success",
+                isClosable: true,
+                position: "top",
+            });
+            setUser(data);
         }
     }
 
@@ -119,14 +130,12 @@ export default function AuthModal() {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Flex ml="auto" gridGap="1rem">
-                <Button variant="secondary" onClick={() => openModal("login")}>
-                    Login
-                </Button>
-                <Button variant="primary" onClick={() => openModal("register")}>
-                    Register
-                </Button>
-            </Flex>
+            <Button variant="secondary" onClick={() => openModal("login")}>
+                Login
+            </Button>
+            <Button variant="primary" onClick={() => openModal("register")}>
+                Register
+            </Button>
         </>
     );
 }
