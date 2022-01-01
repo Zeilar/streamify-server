@@ -1,9 +1,12 @@
 import {
     Button,
+    Flex,
     Modal,
     ModalBody,
+    ModalCloseButton,
     ModalContent,
     ModalHeader,
+    ModalOverlay,
     useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -21,18 +24,26 @@ export default function AuthModal() {
 
     return (
         <>
-            <Modal isOpen={state.isOpen} onClose={state.onClose}>
+            <Modal
+                isOpen={state.isOpen}
+                onClose={state.onClose}
+                blockScrollOnMount
+            >
+                <ModalOverlay />
                 <ModalContent>
+                    <ModalCloseButton />
                     <ModalHeader>Header</ModalHeader>
                     <ModalBody>Body</ModalBody>
                 </ModalContent>
             </Modal>
-            <Button variant="unstyled" onClick={() => openModal("login")}>
-                Login
-            </Button>
-            <Button variant="unstyled" onClick={() => openModal("register")}>
-                Register
-            </Button>
+            <Flex ml="auto" gridGap="1rem">
+                <Button variant="secondary" onClick={() => openModal("login")}>
+                    Login
+                </Button>
+                <Button variant="primary" onClick={() => openModal("register")}>
+                    Register
+                </Button>
+            </Flex>
         </>
     );
 }

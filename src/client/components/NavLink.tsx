@@ -13,17 +13,19 @@ export default function Logo({ href, children, ...props }: Props) {
     return (
         <NextLink href={href} passHref>
             <Link
-                color={active ? "black" : "primary.500"}
                 py="0.25rem"
                 px="1rem"
                 pos="relative"
-                rounded="pill"
+                rounded="md"
                 transition="none"
                 fontSize="1.25rem"
-                fontWeight={600}
-                bgColor={active ? "primary.500" : undefined}
+                fontWeight={500}
+                bgColor={active ? "gray.700" : undefined}
                 userSelect="none"
-                _hover={{ textDecor: "none" }}
+                _hover={{
+                    textDecor: "none",
+                    color: !active ? "primary.500" : undefined,
+                }}
                 {...props}
             >
                 {children}
