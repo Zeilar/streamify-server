@@ -11,13 +11,11 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
-    useToast,
     useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuth, useInject } from "../hooks";
-import { User } from "../@types/user";
+import { useAuth } from "../hooks";
 
 type Tab = "login" | "register";
 
@@ -28,9 +26,7 @@ interface Fields {
 
 export default function AuthModal() {
     const state = useDisclosure();
-    const toast = useToast();
-    const { setUser, register: authRegister } = useAuth();
-    const { apiService } = useInject();
+    const auth = useAuth();
     const [activeTab, setActiveTab] = useState<Tab>("register");
     const {
         handleSubmit,
@@ -44,7 +40,7 @@ export default function AuthModal() {
     }
 
     async function onSubmit(fields: Fields) {
-        await authRegister(fields);
+        await auth.register(fields);
     }
 
     return (
