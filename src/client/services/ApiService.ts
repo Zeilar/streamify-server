@@ -8,7 +8,7 @@ export class ApiService {
     public async request<T>(
         url: string,
         config?: AxiosRequestConfig
-    ): Promise<Response<T> | null> {
+    ): Promise<Response<T>> {
         try {
             const response: AxiosResponse<T> = await axios({
                 url,
@@ -16,8 +16,7 @@ export class ApiService {
             });
             return { ...response, ok: response.status < 400 };
         } catch (error) {
-            console.error(error);
-            return null;
+            return { ...error.response, ok: error.response.status < 400 };
         }
     }
 }

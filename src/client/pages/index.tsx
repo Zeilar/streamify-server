@@ -18,8 +18,6 @@ export default function Home() {
         });
     }
 
-    console.log(progress);
-
     async function upload(file: File) {
         const formData = new FormData();
         formData.append("video", file);

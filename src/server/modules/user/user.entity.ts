@@ -10,9 +10,6 @@ export class User implements UserSchema {
     @OneToMany(() => Video, (video) => video.user, { cascade: true })
     public videos: Video[];
 
-    @Column()
-    public displayName: string;
-
     @Column({ unique: true, type: "text" })
     public email: string;
 
