@@ -5,6 +5,8 @@ import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
 import Player from "../components/Player";
 import { Button } from "@chakra-ui/button";
+import { Input } from "@chakra-ui/react";
+import Icon from "./Icon";
 
 enum ErrorDict {
     "file-too-large" = "The video is too large.",
@@ -104,13 +106,22 @@ export default function Dropzone({ onSubmit }: Props) {
                 ))}
             </Box>
             {preview && (
-                <Flex flexDir="column" alignItems="center">
+                <Flex
+                    flexDir="column"
+                    alignItems="flex-start"
+                    mt="1rem"
+                    w="100%"
+                >
+                    <Input
+                        fontSize="1.5rem"
+                        variant="unstyled"
+                        placeholder="Enter a title for the video..."
+                        mb="0.5rem"
+                    />
                     <Player src={preview} />
-                    <Text as="h2" textStyle="h2">
-                        Looking good?
-                    </Text>
-                    <Button onClick={() => onSubmit(selectedVideo)}>
+                    <Button onClick={() => onSubmit(selectedVideo)} mt="0.5rem">
                         Upload
+                        <Icon icon="mdiUpload" ml="0.5rem" />
                     </Button>
                 </Flex>
             )}
