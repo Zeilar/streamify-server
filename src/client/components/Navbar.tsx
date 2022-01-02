@@ -14,6 +14,7 @@ export default function Navbar() {
                         textStyle="h3"
                         color="primary.500"
                         _hover={{ textDecor: "none" }}
+                        userSelect="none"
                         mr="1rem"
                     >
                         MP4
