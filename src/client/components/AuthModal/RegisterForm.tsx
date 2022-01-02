@@ -73,7 +73,10 @@ export default function RegisterForm() {
                     {errors.password && errors.password.message}
                 </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={Boolean(errors.passwordConfirmation)}>
+            <FormControl
+                isInvalid={Boolean(errors.passwordConfirmation)}
+                mb="1rem"
+            >
                 <FormLabel htmlFor="password">Confirm Password</FormLabel>
                 <Input
                     type="password"
@@ -92,7 +95,7 @@ export default function RegisterForm() {
                         errors.passwordConfirmation.message}
                 </FormErrorMessage>
             </FormControl>
-            <Button mt="2rem" isLoading={isSubmitting} type="submit">
+            <Button isLoading={isSubmitting} type="submit">
                 Register
             </Button>
         </Box>

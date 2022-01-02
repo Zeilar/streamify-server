@@ -25,7 +25,7 @@ export class ApiService {
                 serverError: response.status >= 500,
             };
         } catch (error) {
-            const response: AxiosResponse = error.respone;
+            const response: AxiosResponse = error.response;
             return {
                 ...response,
                 ok: response.status < 400,

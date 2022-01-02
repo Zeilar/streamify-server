@@ -7,8 +7,8 @@ interface IAuthContext {
     user: User;
     setUser: React.Dispatch<User>;
     login(payload: LoginOrRegisterPayload): Promise<void>;
-    logout(): Promise<void>;
     register(payload: LoginOrRegisterPayload): Promise<void>;
+    logout(): Promise<void>;
     authenticated: boolean;
 }
 
