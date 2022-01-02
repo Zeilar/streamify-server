@@ -12,6 +12,7 @@ import { useAuth } from "../../hooks";
 interface Fields {
     email: string;
     password: string;
+    passwordConfirmation: string;
 }
 
 export default function RegisterForm() {
@@ -20,6 +21,7 @@ export default function RegisterForm() {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
+        getValues,
     } = useForm<Fields>();
 
     async function onSubmit(fields: Fields) {
@@ -57,7 +59,7 @@ export default function RegisterForm() {
                     {errors.email && errors.email.message}
                 </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={Boolean(errors.password)}>
+            <FormControl isInvalid={Boolean(errors.password)} mb="1rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
                     type="password"
@@ -77,6 +79,25 @@ export default function RegisterForm() {
                 />
                 <FormErrorMessage>
                     {errors.password && errors.password.message}
+                </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={Boolean(errors.passwordConfirmation)}>
+                <FormLabel htmlFor="password">Confirm Password</FormLabel>
+                <Input
+                    type="password"
+                    id="password"
+                    placeholder="••••••••••"
+                    {...register("passwordConfirmation", {
+                        required: "Password confirmation is required",
+                        validate: (value) =>
+                            value === getValues().password
+                                ? true
+                                : "Passwords do not match",
+                    })}
+                />
+                <FormErrorMessage>
+                    {errors.passwordConfirmation &&
+                        errors.passwordConfirmation.message}
                 </FormErrorMessage>
             </FormControl>
             <Button mt="2rem" isLoading={isSubmitting} type="submit">
