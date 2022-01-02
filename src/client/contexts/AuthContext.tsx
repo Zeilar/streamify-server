@@ -34,6 +34,12 @@ export function AuthContextProvider({ children }: AuthProps) {
             data: { ...payload },
         });
         if (response.ok) {
+            toast({
+                title: "Logged in",
+                status: "success",
+                isClosable: true,
+                position: "top",
+            });
             setUser(response.data);
         }
         return response.ok;
