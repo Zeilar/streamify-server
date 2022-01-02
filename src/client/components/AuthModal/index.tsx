@@ -50,15 +50,7 @@ export default function AuthModal() {
                             alignItems="center"
                             mx="1.5rem"
                             pos="relative"
-                            _after={{
-                                content: `""`,
-                                w: "100%",
-                                height: "2px",
-                                bgColor: "border.default",
-                                pos: "absolute",
-                                bottom: 0,
-                                left: 0,
-                            }}
+                            mb="1rem"
                         >
                             <Tab
                                 onClick={() => openModal("login")}
