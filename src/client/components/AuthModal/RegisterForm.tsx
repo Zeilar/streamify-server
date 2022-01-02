@@ -24,13 +24,13 @@ export default function RegisterForm() {
         getValues,
     } = useForm<Fields>();
 
-    async function onSubmit(fields: Fields) {
-        await auth.register(fields);
+    async function onSubmit({ email, password }: Fields) {
+        await auth.register({ email, password });
     }
 
     return (
         <Box p="1.5rem" as="form" onSubmit={handleSubmit(onSubmit)}>
-            <FormControl isInvalid={Boolean(errors.email)} mb="1rem">
+            <FormControl isInvalid={Boolean(errors.email)} mb="1.5rem">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                     autoFocus
@@ -52,7 +52,7 @@ export default function RegisterForm() {
                     {errors.email && errors.email.message}
                 </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={Boolean(errors.password)} mb="1rem">
+            <FormControl isInvalid={Boolean(errors.password)} mb="1.5rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
                     type="password"
@@ -76,7 +76,7 @@ export default function RegisterForm() {
             </FormControl>
             <FormControl
                 isInvalid={Boolean(errors.passwordConfirmation)}
-                mb="1rem"
+                mb="1.5rem"
             >
                 <FormLabel htmlFor="password">Confirm Password</FormLabel>
                 <Input

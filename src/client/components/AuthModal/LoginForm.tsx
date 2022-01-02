@@ -28,7 +28,7 @@ export default function LoginForm() {
 
     return (
         <Box p="1.5rem" as="form" onSubmit={handleSubmit(onSubmit)}>
-            <FormControl isInvalid={Boolean(errors.email)} mb="1rem">
+            <FormControl isInvalid={Boolean(errors.email)} mb="1.5rem">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                     id="email"
@@ -41,7 +41,7 @@ export default function LoginForm() {
                     {errors.email && errors.email.message}
                 </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={Boolean(errors.password)} mb="1rem">
+            <FormControl isInvalid={Boolean(errors.password)} mb="1.5rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <Input
                     type="password"

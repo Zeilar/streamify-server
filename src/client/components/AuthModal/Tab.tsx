@@ -27,6 +27,7 @@ export default function Tab({ active, onClick, children }: TabProps) {
                           bottom: 0,
                           left: 0,
                           pos: "absolute",
+                          rounded: "pill",
                       }
                     : undefined
             }
