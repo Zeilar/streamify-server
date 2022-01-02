@@ -40,13 +40,13 @@ export function AuthContextProvider({ children }: AuthProps) {
     }
 
     async function register(payload: LoginOrRegisterPayload) {
-        const { data, ok } = await apiService.request<User>("/auth/register", {
+        const { ok, data } = await apiService.request<User>("/auth/register", {
             data: payload,
             method: "POST",
         });
         if (ok) {
             toast({
-                title: "Registration successful!",
+                title: "Created your account!",
                 status: "success",
                 isClosable: true,
                 position: "top",
@@ -58,6 +58,12 @@ export function AuthContextProvider({ children }: AuthProps) {
     async function logout() {
         const { ok } = await apiService.request("/auth/logout");
         if (ok) {
+            toast({
+                title: "You have been logged out",
+                status: "success",
+                isClosable: true,
+                position: "top",
+            });
             setUser(null);
         }
     }

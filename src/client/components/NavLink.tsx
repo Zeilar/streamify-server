@@ -20,7 +20,8 @@ export default function Logo({ href, children, ...props }: Props) {
                 transition="none"
                 fontSize="1.25rem"
                 fontWeight={500}
-                bgColor={active ? "gray.700" : undefined}
+                bgColor={active ? "primary.500" : undefined}
+                color={active ? "black" : "text.default"}
                 userSelect="none"
                 _hover={{
                     textDecor: "none",

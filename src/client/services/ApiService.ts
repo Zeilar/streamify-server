@@ -2,7 +2,11 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-type Response<T> = AxiosResponse<T> & { ok: boolean };
+type Response<T> = AxiosResponse<T> & {
+    ok: boolean;
+    clientError: boolean;
+    serverError: boolean;
+};
 
 export class ApiService {
     public async request<T>(
@@ -14,9 +18,20 @@ export class ApiService {
                 url,
                 ...config,
             });
-            return { ...response, ok: response.status < 400 };
+            return {
+                ...response,
+                ok: response.status < 400,
+                clientError: response.status >= 400 && response.status < 500,
+                serverError: response.status >= 500,
+            };
         } catch (error) {
-            return { ...error.response, ok: error.response.status < 400 };
+            const response: AxiosResponse = error.respone;
+            return {
+                ...response,
+                ok: response.status < 400,
+                clientError: response.status >= 400 && response.status < 500,
+                serverError: response.status >= 500,
+            };
         }
     }
 }
