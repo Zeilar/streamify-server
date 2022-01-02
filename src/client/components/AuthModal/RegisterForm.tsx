@@ -29,15 +29,7 @@ export default function RegisterForm() {
     }
 
     return (
-        <Box
-            pos="absolute"
-            left="-100%"
-            top={0}
-            p="1.5rem"
-            as="form"
-            w="100%"
-            onSubmit={handleSubmit(onSubmit)}
-        >
+        <Box p="1.5rem" as="form" onSubmit={handleSubmit(onSubmit)}>
             <FormControl isInvalid={Boolean(errors.email)} mb="1rem">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input

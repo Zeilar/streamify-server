@@ -64,16 +64,8 @@ export default function AuthModal() {
                                 Register
                             </Tab>
                         </Flex>
-                        <Box
-                            pos="relative"
-                            transition="transform 0.15s ease-in-out"
-                            transform={`translateX(${
-                                activeTab === "register" ? "100%" : 0
-                            })`}
-                        >
-                            <LoginForm />
-                            <RegisterForm />
-                        </Box>
+                        {activeTab === "login" && <LoginForm />}
+                        {activeTab === "register" && <RegisterForm />}
                     </ModalBody>
                 </ModalContent>
             </Modal>
