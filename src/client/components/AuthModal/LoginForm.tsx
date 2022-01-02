@@ -55,7 +55,7 @@ export default function LoginForm() {
                 </FormErrorMessage>
             </FormControl>
             <Button mt="2rem" isLoading={isSubmitting} type="submit">
-                Submit
+                Login
             </Button>
         </Box>
     );

@@ -80,7 +80,7 @@ export default function RegisterForm() {
                 </FormErrorMessage>
             </FormControl>
             <Button mt="2rem" isLoading={isSubmitting} type="submit">
-                Submit
+                Register
             </Button>
         </Box>
     );
