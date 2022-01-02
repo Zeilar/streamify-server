@@ -6,7 +6,7 @@ import { useInject } from "../hooks/useInject";
 interface IAuthContext {
     user: User;
     setUser: React.Dispatch<User>;
-    login(payload: LoginOrRegisterPayload): Promise<boolean>;
+    login(payload: LoginOrRegisterPayload): Promise<void>;
     logout(): Promise<void>;
     register(payload: LoginOrRegisterPayload): Promise<void>;
     authenticated: boolean;
@@ -42,7 +42,6 @@ export function AuthContextProvider({ children }: AuthProps) {
             });
             setUser(response.data);
         }
-        return response.ok;
     }
 
     async function register(payload: LoginOrRegisterPayload) {
