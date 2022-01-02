@@ -64,7 +64,7 @@ export function AuthContextProvider({ children }: AuthProps) {
         const { ok } = await apiService.request("/auth/logout");
         if (ok) {
             toast({
-                title: "You have been logged out",
+                title: "Logged out",
                 status: "success",
                 isClosable: true,
                 position: "top",
