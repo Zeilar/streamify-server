@@ -38,7 +38,7 @@ export default function AuthModal() {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
-                    <ModalHeader mb="1rem">
+                    <ModalHeader>
                         <Text textAlign="center" textStyle="h4">
                             Authentication
                         </Text>
@@ -46,9 +46,8 @@ export default function AuthModal() {
                     <ModalBody overflowX="hidden" p={0}>
                         <Flex
                             justifyContent="space-evenly"
-                            h="2rem"
-                            mb="1rem"
                             alignItems="center"
+                            px="1.5rem"
                         >
                             <Tab
                                 onClick={() => openModal("login")}
@@ -56,7 +55,6 @@ export default function AuthModal() {
                             >
                                 Login
                             </Tab>
-                            <Divider orientation="vertical" />
                             <Tab
                                 onClick={() => openModal("register")}
                                 active={activeTab === "register"}
