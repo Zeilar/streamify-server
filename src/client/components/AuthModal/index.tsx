@@ -38,9 +38,10 @@ export default function AuthModal() {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
-                    <ModalHeader>
-                        <Text textStyle="h4">Authentication</Text>
-                        <Divider mt="1rem" />
+                    <ModalHeader mb="1rem">
+                        <Text textAlign="center" textStyle="h4">
+                            Authentication
+                        </Text>
                     </ModalHeader>
                     <ModalBody overflowX="hidden" p={0}>
                         <Flex

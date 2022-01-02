@@ -40,7 +40,7 @@ export default function RegisterForm() {
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                     id="email"
-                    placeholder="email"
+                    placeholder="john.doe@example.com"
                     {...register("email", {
                         required: "Email is required",
                         minLength: {
@@ -62,7 +62,7 @@ export default function RegisterForm() {
                 <Input
                     type="password"
                     id="password"
-                    placeholder="password"
+                    placeholder="••••••••••"
                     {...register("password", {
                         required: "Password is required",
                         minLength: {

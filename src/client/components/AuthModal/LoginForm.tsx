@@ -32,7 +32,7 @@ export default function LoginForm() {
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
                     id="email"
-                    placeholder="email"
+                    placeholder="john.doe@example.com"
                     type="email"
                     {...register("email", { required: "Email is required" })}
                 />
@@ -45,7 +45,7 @@ export default function LoginForm() {
                 <Input
                     type="password"
                     id="password"
-                    placeholder="password"
+                    placeholder="••••••••••"
                     {...register("password", {
                         required: "Password is required",
                     })}
