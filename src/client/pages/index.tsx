@@ -19,9 +19,8 @@ export default function Home() {
             {
                 method: "POST",
                 data: formData,
-                onUploadProgress: (e: ProgressEvent) => {
-                    setProgress(Math.round((e.loaded * 100) / e.total));
-                },
+                onUploadProgress: (e: ProgressEvent) =>
+                    setProgress(Math.round((e.loaded * 100) / e.total)),
             }
         );
         if (ok) {
