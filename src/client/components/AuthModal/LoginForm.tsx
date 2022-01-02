@@ -34,6 +34,7 @@ export default function LoginForm() {
                     id="email"
                     placeholder="john.doe@example.com"
                     type="email"
+                    autoFocus
                     {...register("email", { required: "Email is required" })}
                 />
                 <FormErrorMessage>

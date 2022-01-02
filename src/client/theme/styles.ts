@@ -39,5 +39,8 @@ export const styles = {
         "::-webkit-scrollbar-track": {
             backgroundColor: "gray.900",
         },
+        ".chakra-toast__inner .chakra-alert": {
+            bgColor: "primary.500",
+        },
     },
 };
