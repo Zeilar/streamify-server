@@ -12,10 +12,11 @@ export default function Tab({ active, onClick, children }: TabProps) {
             rounded="none"
             fontSize="1.25rem"
             w="100%"
-            h="4rem"
+            h="3rem"
             pos="relative"
             variant="unstyled"
             onClick={onClick}
+            zIndex={10}
             color={active ? "primary.500" : "text.default"}
             _after={
                 active

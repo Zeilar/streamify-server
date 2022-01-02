@@ -9,10 +9,10 @@ export const Input: StyleConfig = {
     variants: {
         flushed: {
             field: {
+                borderBottom: "2px solid",
                 _focus: {
                     borderColor: "primary.500",
-                    boxShadow:
-                        "0 0 0 1px solid var(--chakra-colors-primary-500)",
+                    boxShadow: "none",
                 },
             },
         },

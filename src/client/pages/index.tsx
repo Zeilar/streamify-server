@@ -1,5 +1,5 @@
 import { Flex, Progress, Text } from "@chakra-ui/react";
-import Dropzone from "../components/Dropzone";
+import UploadDropzone from "../components/UploadDropzone";
 import { useRouter } from "next/router";
 import { useInject } from "../hooks";
 import { useState } from "react";
@@ -48,7 +48,7 @@ export default function Home() {
                     <Progress w="100%" value={progress} hasStripe isAnimated />
                 </Flex>
             )}
-            {!uploading && <Dropzone onSubmit={upload} />}
+            {!uploading && <UploadDropzone onSubmit={upload} />}
         </Flex>
     );
 }

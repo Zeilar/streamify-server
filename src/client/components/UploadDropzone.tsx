@@ -3,7 +3,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { useDropzone, FileError } from "react-dropzone";
 import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
-import Player from "../components/Player";
+import Player from "./Player";
 import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/react";
 import Icon from "./Icon";
@@ -46,7 +46,7 @@ const rejectStyle = {
     borderColor: "var(--chakra-colors-danger)",
 };
 
-export default function Dropzone({ onSubmit }: Props) {
+export default function UploadDropzone({ onSubmit }: Props) {
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
     const {
