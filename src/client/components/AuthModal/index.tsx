@@ -16,6 +16,7 @@ import { useState } from "react";
 import Tab from "./Tab";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
+import Icon from "../Icon";
 
 type Tab = "login" | "register";
 
@@ -53,12 +54,14 @@ export default function AuthModal() {
                                 onClick={() => openModal("login")}
                                 active={activeTab === "login"}
                             >
+                                <Icon icon="mdiLockOpen" mr="0.5rem" />
                                 Login
                             </Tab>
                             <Tab
                                 onClick={() => openModal("register")}
                                 active={activeTab === "register"}
                             >
+                                <Icon icon="mdiAccountPlus" mr="0.5rem" />
                                 Register
                             </Tab>
                         </Flex>

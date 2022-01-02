@@ -13,6 +13,7 @@ export default function Icon({ icon, ...props }: Props) {
             path={MdiIcons[icon]}
             minW="1rem"
             minH="1rem"
+            verticalAlign="middle"
             {...props}
         />
     );

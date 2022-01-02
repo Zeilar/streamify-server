@@ -13,10 +13,7 @@ export const Button: StyleConfig = {
     },
     sizes: {
         md: {
-            paddingX: "1rem",
-        },
-        lg: {
-            paddingX: "2rem",
+            paddingX: "1.5rem",
         },
     },
     variants: {
