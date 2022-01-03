@@ -1,7 +1,6 @@
 import {
     Controller,
     Get,
-    HttpCode,
     Param,
     Post,
     Req,
@@ -35,13 +34,15 @@ export class VideoController {
     @Get("/:id")
     @UseGuards(VideoExistsGuard)
     public async getVideoById(@Param() params: FindOneVideoParams) {
-        const video = await this.videoService.findById(params.id);
-        const videoUrl = await this.videoService.getFileUrl(params.id);
+        const [video, videoUrl] = await Promise.all([
+            this.videoService.findById(params.id),
+            this.videoService.getFileUrl(params.id),
+        ]);
         return { video, videoUrl };
     }
 
     @Get("/public")
     public async getPublic() {
-        //
+        return await this.videoService.getPublic();
     }
 }

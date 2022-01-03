@@ -21,6 +21,7 @@ export default function Navbar() {
                     </Link>
                 </NextLink>
                 <NavLink href="/browse">Browse</NavLink>
+                <NavLink href="/convert">Convert</NavLink>
             </Flex>
             <Flex ml="auto" gridGap="1rem">
                 {authenticated ? (

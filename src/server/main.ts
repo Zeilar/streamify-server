@@ -9,7 +9,9 @@ import { DateHelper } from "./common/helpers/Date.helper";
 import { NODE_ENV } from "./@types/env";
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        logger: ["error", "warn", "log", "debug"],
+    });
     const configService = app.get<ConfigService<EnvConfig>>(ConfigService);
     const dateHelper = app.get(DateHelper);
 

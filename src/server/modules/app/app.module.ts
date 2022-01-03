@@ -3,6 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { getConnectionOptions } from "typeorm";
 import { DateHelper } from "../../common/helpers/Date.helper";
 import { AuthModule } from "../auth/auth.module";
+import { ConvertModule } from "../convert/convert.module";
 import { FirebaseModule } from "../firebase/firebase.module";
 import { HashModule } from "../hash/hash.module";
 import { UserModule } from "../user/user.module";
@@ -18,6 +19,7 @@ import { AppService } from "./app.service";
         UserModule,
         AuthModule,
         VideoModule,
+        ConvertModule,
         TypeOrmModule.forRootAsync({
             useFactory: async () =>
                 Object.assign(await getConnectionOptions(), {
