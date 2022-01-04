@@ -20,9 +20,7 @@ export default function Home() {
                 setProgress(Math.round((e.loaded * 100) / e.total)),
         });
         setUploading(false);
-        console.log(data);
         if (ok) {
-            // const downloadUrl = URL.createObjectURL(new Blob([data]));
             saveAs(new Blob([data.data]), `${file.name}.mp4`);
         }
     }
