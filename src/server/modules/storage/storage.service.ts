@@ -1,5 +1,6 @@
 import { ConsoleLogger, Injectable } from "@nestjs/common";
-import { mkdir, stat } from "fs/promises";
+import { mkdir, stat, rm, writeFile } from "fs/promises";
+import { v4 as uuidv4 } from "uuid";
 import { join } from "path";
 
 @Injectable()
@@ -13,23 +14,30 @@ export class StorageService {
     public async createStoreIfNotExists() {
         try {
             const result = await stat(this.__STORAGE__);
-            if (result.isDirectory()) {
-                return;
+            if (!result.isDirectory()) {
+                await rm(this.__STORAGE__);
+                await mkdir(this.__STORAGE__);
             }
-            await mkdir(this.__STORAGE__);
         } catch (error) {
-            // If the directory didn't exist, it'll throw an error, which is to be expected the first time this executes
+            // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
             await mkdir(this.__STORAGE__);
         } finally {
             this.logger.log(`Installed storage at ${this.__STORAGE__}`);
         }
     }
 
-    public async store(path: string, file: any) {
-        //
+    public async storeMulterFile(file: Express.Multer.File) {
+        const buffer = Buffer.from(file.buffer);
+        const path = join(this.__STORAGE__, uuidv4());
+        await writeFile(path, buffer);
+        return path;
     }
 
     public async delete(pathToFile: string) {
-        //
+        await rm(pathToFile);
+    }
+
+    public path(path: string) {
+        return join(this.__STORAGE__, path);
     }
 }

@@ -14,7 +14,6 @@ import { FirebaseService } from "../firebase/firebase.service";
 import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
-import ffmpeg from "ffmpeg";
 
 @Injectable()
 export class VideoService {
@@ -51,7 +50,6 @@ export class VideoService {
     public async upload(videoFile: Express.Multer.File, userId: FindOneId) {
         const buffer = Buffer.from(videoFile.buffer);
         const arrayBuffer = Uint8Array.from(buffer).buffer;
-
         if (
             arrayBuffer.byteLength >
             this.configService.get<number>("maxFileSize")

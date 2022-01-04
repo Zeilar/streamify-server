@@ -121,7 +121,12 @@ export default function UploadDropzone({ onSubmit }: Props) {
                     <Player src={preview} />
                     <Button onClick={() => onSubmit(selectedVideo)} mt="0.5rem">
                         Upload
-                        <Icon icon="mdiUpload" ml="0.5rem" />
+                        <Icon
+                            icon="mdiUpload"
+                            ml="0.5rem"
+                            w="1.25rem"
+                            h="1.25rem"
+                        />
                     </Button>
                 </Flex>
             )}

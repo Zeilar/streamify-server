@@ -2,6 +2,7 @@ import { Flex, Progress, Text } from "@chakra-ui/react";
 import ConvertDropzone from "../../components/ConvertDropzone";
 import { useInject } from "../../hooks";
 import { useState } from "react";
+import { saveAs } from "file-saver";
 
 export default function Home() {
     const { apiService } = useInject();
@@ -12,19 +13,17 @@ export default function Home() {
         const formData = new FormData();
         formData.append("video", file);
         setUploading(true);
-        const { data, ok } = await apiService.request<{ id: string }>(
-            "/convert",
-            {
-                method: "POST",
-                data: formData,
-                onUploadProgress: (e: ProgressEvent) =>
-                    setProgress(Math.round((e.loaded * 100) / e.total)),
-            }
-        );
+        const { data, ok } = await apiService.request<any>("/convert", {
+            method: "POST",
+            data: formData,
+            onUploadProgress: (e: ProgressEvent) =>
+                setProgress(Math.round((e.loaded * 100) / e.total)),
+        });
+        setUploading(false);
+        console.log(data);
         if (ok) {
-            console.log("got data", data);
-        } else {
-            setUploading(false);
+            // const downloadUrl = URL.createObjectURL(new Blob([data]));
+            saveAs(new Blob([data.data]), `${file.name}.mp4`);
         }
     }
 

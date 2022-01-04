@@ -7,7 +7,7 @@ import { Button } from "@chakra-ui/button";
 import Icon from "./Icon";
 
 enum ErrorDict {
-    "file-too-large" = "The file is too large.",
+    "file-too-large" = "The video is too large.",
     "file-invalid-type" = "Invalid file type.",
 }
 
@@ -61,9 +61,9 @@ export default function ConvertDropzone({ onSubmit }: Props) {
         onDropAccepted: () => setErrors([]),
     });
 
-    const selected = acceptedFiles[0];
+    const selectedVideo = acceptedFiles[0];
 
-    console.log({ selected });
+    // console.log({ selectedVideo });
 
     const style = {
         ...baseStyle,
@@ -97,9 +97,9 @@ export default function ConvertDropzone({ onSubmit }: Props) {
                     <Box key={i}>{ErrorDict[error.code]}</Box>
                 ))}
             </Box>
-            <Button>
+            <Button onClick={() => onSubmit(selectedVideo)}>
                 Convert
-                <Icon icon="mdiAutorenew" ml="0.5rem" />
+                <Icon icon="mdiAutorenew" ml="0.5rem" w="1.25rem" h="1.25rem" />
             </Button>
         </Flex>
     );

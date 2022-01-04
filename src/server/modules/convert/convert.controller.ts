@@ -1,7 +1,6 @@
 import {
     Controller,
     Post,
-    Req,
     UploadedFile,
     UseGuards,
     UseInterceptors,
@@ -10,7 +9,6 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ConvertService } from "./convert.service";
 import { ThrottlerGuard } from "@nestjs/throttler";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
-import { Request } from "express";
 
 @Controller("/convert")
 export class ConvertController {
@@ -18,12 +16,8 @@ export class ConvertController {
 
     @Post("/")
     @UseInterceptors(FileInterceptor("video"))
-    // @UseGuards(AuthenticatedGuard, ThrottlerGuard)
-    public async convert(
-        @UploadedFile() video: Express.Multer.File,
-        @Req() req: Request
-    ) {
-        return await this.convertService.convert();
-        // return { id };
+    @UseGuards(AuthenticatedGuard, ThrottlerGuard)
+    public async convert(@UploadedFile() video: Express.Multer.File) {
+        return await this.convertService.convert(video);
     }
 }
