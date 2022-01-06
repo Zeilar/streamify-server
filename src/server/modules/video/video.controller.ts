@@ -11,7 +11,6 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 import { VideoService } from "./video.service";
 import { ThrottlerGuard } from "@nestjs/throttler";
-import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { Request } from "express";
 import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
 import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
@@ -22,7 +21,7 @@ export class VideoController {
 
     @Post("/")
     @UseInterceptors(FileInterceptor("video"))
-    @UseGuards(AuthenticatedGuard, ThrottlerGuard)
+    @UseGuards(ThrottlerGuard)
     public async upload(
         @UploadedFile() video: Express.Multer.File,
         @Req() req: Request
