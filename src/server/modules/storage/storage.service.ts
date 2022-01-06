@@ -29,8 +29,6 @@ export class StorageService {
         }
     }
 
-    public async createPublicStoreIfNotExists() {}
-
     public async storeMulterFile(file: Express.Multer.File, path: string) {
         const fileName = uuidv4();
         await writeFile(
