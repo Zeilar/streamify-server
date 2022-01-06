@@ -20,8 +20,8 @@ export class Video implements VideoSchema {
     @PrimaryColumn()
     public id: string;
 
-    @ManyToOne(() => User, (user) => user.videos)
-    public user: User;
+    @ManyToOne(() => User, (user) => user.videos, { nullable: true })
+    public user: User | null;
 
     @Column()
     public title: string;
