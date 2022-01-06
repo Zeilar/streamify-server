@@ -11,6 +11,7 @@ export interface VideoSchema {
     id: string;
     title: string;
     visibility: Visibility;
+    views: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -25,6 +26,9 @@ export class Video implements VideoSchema {
 
     @Column()
     public title: string;
+
+    @Column({ type: "int", default: 0 })
+    public views: number;
 
     @Column({ type: "enum", default: Visibility.PUBLIC, enum: Visibility })
     public visibility: Visibility;

@@ -4,7 +4,8 @@ export interface Video {
     id: string;
     title: string;
     visibility: Visibility;
-    userId?: any;
+    userId: number | null;
+    views: number;
     createdAt: string;
     updatedAt: string;
 }
