@@ -22,6 +22,7 @@ export class StorageService {
             // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
             await mkdir(this.__STORAGE__);
         } finally {
+            await mkdir(this.path("/public"));
             this.logger.log(`Installed storage at ${this.__STORAGE__}`);
         }
     }
