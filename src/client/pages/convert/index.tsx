@@ -21,7 +21,10 @@ export default function Home() {
         });
         setUploading(false);
         if (ok) {
-            saveAs(`/storage/${data}.mp4`, `${file.name}.mp4`);
+            saveAs(
+                `/storage/${data}.mp4`,
+                `${file.name.slice(0, file.name.lastIndexOf("."))}.mp4`
+            );
         }
     }
 
