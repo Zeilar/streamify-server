@@ -48,9 +48,9 @@ export default function RegisterForm() {
                         },
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.email && errors.email.message}
-                </FormErrorMessage>
+                {errors.email && (
+                    <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                )}
             </FormControl>
             <FormControl isInvalid={Boolean(errors.password)} mb="1.5rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
@@ -70,9 +70,11 @@ export default function RegisterForm() {
                         },
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.password && errors.password.message}
-                </FormErrorMessage>
+                {errors.password && (
+                    <FormErrorMessage>
+                        {errors.password.message}
+                    </FormErrorMessage>
+                )}
             </FormControl>
             <FormControl
                 isInvalid={Boolean(errors.passwordConfirmation)}
@@ -91,10 +93,11 @@ export default function RegisterForm() {
                                 : "Passwords do not match",
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.passwordConfirmation &&
-                        errors.passwordConfirmation.message}
-                </FormErrorMessage>
+                {errors.passwordConfirmation && (
+                    <FormErrorMessage>
+                        {errors.passwordConfirmation.message}
+                    </FormErrorMessage>
+                )}
             </FormControl>
             <Button isLoading={isSubmitting} type="submit">
                 Register

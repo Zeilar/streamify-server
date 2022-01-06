@@ -5,8 +5,9 @@ import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
 import Player from "./Player";
 import { Button } from "@chakra-ui/button";
-import { Input } from "@chakra-ui/react";
+import { FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import Icon from "./Icon";
+import { useForm } from "react-hook-form";
 
 enum ErrorDict {
     "file-too-large" = "The video is too large.",
@@ -14,7 +15,11 @@ enum ErrorDict {
 }
 
 interface Props {
-    onSubmit(file: File, title: string): void;
+    onSubmit(file: File, title: string): Promise<void>;
+}
+
+interface Fields {
+    title: string;
 }
 
 const baseStyle: CSSProperties = {
@@ -47,9 +52,9 @@ const rejectStyle = {
 };
 
 export default function UploadDropzone({ onSubmit }: Props) {
-    const [title, setTitle] = useState("");
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
+    const form = useForm<Fields>();
     const {
         acceptedFiles,
         getRootProps,
@@ -80,6 +85,10 @@ export default function UploadDropzone({ onSubmit }: Props) {
         ...(isDragAccept ? acceptStyle : {}),
         ...(isDragReject ? rejectStyle : {}),
     };
+
+    async function submit({ title }: Fields) {
+        await onSubmit(selectedVideo, title);
+    }
 
     return (
         <Flex
@@ -112,24 +121,38 @@ export default function UploadDropzone({ onSubmit }: Props) {
             </Box>
             {preview && (
                 <Flex
+                    as="form"
                     flexDir="column"
                     alignItems="flex-start"
                     mt="1rem"
                     w="100%"
+                    onSubmit={form.handleSubmit(submit)}
                 >
-                    <Input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        fontSize="1.5rem"
-                        variant="unstyled"
-                        placeholder="Enter a title for the video..."
+                    <FormControl
+                        isInvalid={Boolean(form.formState.errors.title)}
                         mb="0.5rem"
-                    />
-                    <Player src={preview} />
-                    <Button
-                        onClick={() => onSubmit(selectedVideo, title)}
-                        mt="0.5rem"
                     >
+                        <Input
+                            fontSize="1.5rem"
+                            variant="unstyled"
+                            placeholder="Enter a title for the video..."
+                            {...form.register("title", {
+                                required: "Title is required",
+                                maxLength: {
+                                    message:
+                                        "Title must not exceed 30 characters",
+                                    value: 30,
+                                },
+                            })}
+                        />
+                        {form.formState.errors.title && (
+                            <FormErrorMessage>
+                                {form.formState.errors.title.message}
+                            </FormErrorMessage>
+                        )}
+                    </FormControl>
+                    <Player src={preview} />
+                    <Button type="submit" mt="0.5rem">
                         Upload
                         <Icon
                             icon="mdiUpload"

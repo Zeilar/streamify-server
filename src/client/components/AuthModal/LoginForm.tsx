@@ -37,9 +37,9 @@ export default function LoginForm() {
                     autoFocus
                     {...register("email", { required: "Email is required" })}
                 />
-                <FormErrorMessage>
-                    {errors.email && errors.email.message}
-                </FormErrorMessage>
+                {errors.email && (
+                    <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                )}
             </FormControl>
             <FormControl isInvalid={Boolean(errors.password)} mb="1.5rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
@@ -51,9 +51,11 @@ export default function LoginForm() {
                         required: "Password is required",
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.password && errors.password.message}
-                </FormErrorMessage>
+                {errors.password && (
+                    <FormErrorMessage>
+                        {errors.password.message}
+                    </FormErrorMessage>
+                )}
             </FormControl>
             <Button isLoading={isSubmitting} type="submit">
                 Login

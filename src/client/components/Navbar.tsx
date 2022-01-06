@@ -7,7 +7,7 @@ import { useAuth } from "../hooks";
 export default function Navbar() {
     const { authenticated, logout } = useAuth();
     return (
-        <Flex as="nav" py="1rem" alignItems="center">
+        <Flex as="nav" py="1rem" alignItems="center" mb="1rem">
             <Flex gridGap="1rem" alignItems="center">
                 <NextLink passHref href="/">
                     <Link
