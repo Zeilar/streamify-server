@@ -1,10 +1,10 @@
 import { GetServerSidePropsContext } from "next";
-import axios from "axios";
 import { Video } from "../../../@types/video";
 import Head from "next/head";
 import Player from "../../../components/Player";
 import { ApiService } from "../../../services/ApiService";
-import { Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
+import Icon from "../../../components/Icon";
 
 interface VideoData {
     video?: Video;
@@ -28,9 +28,15 @@ export default function SingleVideo({ video, videoUrl }: VideoData) {
                 <meta property="og:video:height" content="720" />
             </Head>
             <Player src={url} />
-            <Text textStyle="h4" as="h4">
-                {video.title}
-            </Text>
+            <Flex mt="0.25rem">
+                <Text>{video.title}</Text>
+                <Flex ml="auto" alignItems="center" title="Views">
+                    <Text textStyle="span" as="span">
+                        {video.views.toLocaleString()}
+                    </Text>
+                    <Icon ml="0.5rem" icon="mdiEye" />
+                </Flex>
+            </Flex>
         </div>
     );
 }
