@@ -81,7 +81,11 @@ export default function ConvertDropzone({ onSubmit }: Props) {
         >
             <Box {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <Text>Drop your video here or click to select it</Text>
+                <Text>
+                    {selectedVideo
+                        ? selectedVideo.name
+                        : "Drop your video here or click to select it"}
+                </Text>
             </Box>
             <Text
                 textAlign="center"
@@ -97,10 +101,17 @@ export default function ConvertDropzone({ onSubmit }: Props) {
                     <Box key={i}>{ErrorDict[error.code]}</Box>
                 ))}
             </Box>
-            <Button onClick={() => onSubmit(selectedVideo)}>
-                Convert
-                <Icon icon="mdiAutorenew" ml="0.5rem" w="1.25rem" h="1.25rem" />
-            </Button>
+            {selectedVideo && (
+                <Button onClick={() => onSubmit(selectedVideo)} mt="1rem">
+                    Convert
+                    <Icon
+                        icon="mdiAutorenew"
+                        ml="0.5rem"
+                        w="1.25rem"
+                        h="1.25rem"
+                    />
+                </Button>
+            )}
         </Flex>
     );
 }

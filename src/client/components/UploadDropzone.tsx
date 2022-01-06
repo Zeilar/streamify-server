@@ -89,7 +89,11 @@ export default function UploadDropzone({ onSubmit }: Props) {
         >
             <Box {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <Text>Drop your video here or click to select it</Text>
+                <Text>
+                    {selectedVideo
+                        ? selectedVideo.name
+                        : "Drop your video here or click to select it"}
+                </Text>
             </Box>
             <Text
                 textAlign="center"
