@@ -11,9 +11,11 @@ export default function Home() {
     const [progress, setProgress] = useState(0);
     const toast = useToast();
 
-    async function upload(file: File) {
+    async function upload(file: File, title: string) {
         const formData = new FormData();
         formData.append("video", file);
+        formData.append("title", title);
+        formData.append("visibility", "public");
         setUploading(true);
         const { data, ok } = await apiService.request<{ id: string }>(
             "/video",
@@ -29,7 +31,7 @@ export default function Home() {
             router.push(`/video/${data.id}`);
         } else {
             toast({
-                title: "Failed converting file",
+                title: "Failed uploading file",
                 status: "error",
                 isClosable: true,
                 position: "top",

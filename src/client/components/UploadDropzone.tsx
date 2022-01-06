@@ -14,7 +14,7 @@ enum ErrorDict {
 }
 
 interface Props {
-    onSubmit(file: File): void;
+    onSubmit(file: File, title: string): void;
 }
 
 const baseStyle: CSSProperties = {
@@ -47,6 +47,7 @@ const rejectStyle = {
 };
 
 export default function UploadDropzone({ onSubmit }: Props) {
+    const [title, setTitle] = useState("");
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
     const {
@@ -117,13 +118,18 @@ export default function UploadDropzone({ onSubmit }: Props) {
                     w="100%"
                 >
                     <Input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         fontSize="1.5rem"
                         variant="unstyled"
                         placeholder="Enter a title for the video..."
                         mb="0.5rem"
                     />
                     <Player src={preview} />
-                    <Button onClick={() => onSubmit(selectedVideo)} mt="0.5rem">
+                    <Button
+                        onClick={() => onSubmit(selectedVideo, title)}
+                        mt="0.5rem"
+                    >
                         Upload
                         <Icon
                             icon="mdiUpload"

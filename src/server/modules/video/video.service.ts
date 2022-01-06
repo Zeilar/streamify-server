@@ -14,6 +14,8 @@ import { FirebaseService } from "../firebase/firebase.service";
 import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
+import { User } from "../user/user.entity";
+import { UploadVideoDto } from "../../common/validators/uploadVideo";
 
 @Injectable()
 export class VideoService {
@@ -43,11 +45,15 @@ export class VideoService {
     }
 
     public async exists(id: string) {
-        const userCount = await this.videoRepository.count({ where: { id } });
-        return userCount > 0;
+        const videoCount = await this.videoRepository.count({ id });
+        return videoCount > 0;
     }
 
-    public async upload(videoFile: Express.Multer.File, userId: FindOneId) {
+    public async upload(
+        videoFile: Express.Multer.File,
+        videoDto: UploadVideoDto,
+        userId?: FindOneId
+    ) {
         const buffer = Buffer.from(videoFile.buffer);
         const arrayBuffer = Uint8Array.from(buffer).buffer;
         if (
@@ -61,18 +67,20 @@ export class VideoService {
             throw new UnsupportedMediaTypeException();
         }
         const videoId = await this.generateId();
-        const user = await this.userService.findById(userId);
-        if (!user) {
-            throw new InternalServerErrorException(
-                "The user that uploaded this video could not be found."
-            );
+        let user: User;
+        if (userId) {
+            user = await this.userService.findById(userId);
+            if (!user) {
+                throw new InternalServerErrorException(
+                    "The user that uploaded this video could not be found."
+                );
+            }
         }
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
         await this.videoRepository.insert({
             id: videoId,
-            title: "My video",
-            visibility: Visibility.PUBLIC,
             user,
+            ...videoDto,
         });
         return videoId;
     }

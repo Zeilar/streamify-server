@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     Param,
@@ -14,6 +15,7 @@ import { ThrottlerGuard } from "@nestjs/throttler";
 import { Request } from "express";
 import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
 import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
+import { UploadVideoDto } from "../../common/validators/uploadVideo";
 
 @Controller("/video")
 export class VideoController {
@@ -24,9 +26,14 @@ export class VideoController {
     @UseGuards(ThrottlerGuard)
     public async upload(
         @UploadedFile() video: Express.Multer.File,
+        @Body() videoDto: UploadVideoDto,
         @Req() req: Request
     ) {
-        const id = await this.videoService.upload(video, req.user.id);
+        const id = await this.videoService.upload(
+            video,
+            videoDto,
+            req.user?.id
+        );
         return { id };
     }
 
