@@ -3,7 +3,6 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ThrottlerModule } from "@nestjs/throttler";
 import video from "../../config/video";
-import { FirebaseService } from "../firebase/firebase.service";
 import { VideoController } from "./video.controller";
 import { Video } from "./video.entity";
 import { VideoService } from "./video.service";
