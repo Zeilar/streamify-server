@@ -26,10 +26,10 @@ export class StorageService {
         }
     }
 
-    public async storeMulterFile(file: Express.Multer.File) {
+    public async storeMulterFile(file: Express.Multer.File, path: string) {
         const fileName = uuidv4();
         await writeFile(
-            join(this.__STORAGE__, fileName),
+            join(this.__STORAGE__, path, fileName),
             Buffer.from(file.buffer)
         );
         return fileName;

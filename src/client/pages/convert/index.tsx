@@ -13,7 +13,7 @@ export default function Home() {
         const formData = new FormData();
         formData.append("video", file);
         setUploading(true);
-        const { data, ok } = await apiService.request<any>("/convert", {
+        const { data, ok } = await apiService.request<string>("/convert", {
             method: "POST",
             data: formData,
             onUploadProgress: (e: ProgressEvent) =>
@@ -21,9 +21,7 @@ export default function Home() {
         });
         setUploading(false);
         if (ok) {
-            console.log(data);
-            // console.log(data.data, new Blob([data.data]));
-            // saveAs(new Blob([data.data]), `${file.name}.mp4`);
+            saveAs(`/storage/${data}.mp4`, `${file.name}.mp4`);
         }
     }
 

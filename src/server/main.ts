@@ -38,7 +38,6 @@ async function bootstrap() {
     app.setGlobalPrefix("/api/v1", {
         exclude: [{ path: "*", method: RequestMethod.GET }],
     });
-
     app.use("/storage", express.static(join(__dirname, "storage/public")));
 
     await app.listen(configService.get<number>("port"));
