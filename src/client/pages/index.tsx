@@ -1,4 +1,4 @@
-import { Flex, Progress, Text } from "@chakra-ui/react";
+import { Flex, Progress, Text, useToast } from "@chakra-ui/react";
 import UploadDropzone from "../components/UploadDropzone";
 import { useRouter } from "next/router";
 import { useInject } from "../hooks";
@@ -9,6 +9,7 @@ export default function Home() {
     const { apiService } = useInject();
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const toast = useToast();
 
     async function upload(file: File) {
         const formData = new FormData();
@@ -23,17 +24,23 @@ export default function Home() {
                     setProgress(Math.round((e.loaded * 100) / e.total)),
             }
         );
+        setUploading(false);
         if (ok) {
             router.push(`/video/${data.id}`);
         } else {
-            setUploading(false);
+            toast({
+                title: "Failed converting file",
+                status: "error",
+                isClosable: true,
+                position: "top",
+            });
         }
     }
 
     return (
         <Flex flexDir="column" alignItems="center">
-            <Text textAlign="center" as="h2" textStyle="h2" mb="1rem">
-                Upload video
+            <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
+                Upload mp4 video
             </Text>
             {uploading && (
                 <Flex w="100%" flexDir="column">
