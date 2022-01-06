@@ -11,21 +11,25 @@ export class StorageService {
         this.__STORAGE__ = join(__dirname, "../../storage");
     }
 
+    private async createStore() {
+        await mkdir(`${this.__STORAGE__}/public`, { recursive: true });
+        this.logger.log(`Installed storage at ${this.__STORAGE__}`);
+    }
+
     public async createStoreIfNotExists() {
         try {
             const result = await stat(this.__STORAGE__);
             if (!result.isDirectory()) {
                 await rm(this.__STORAGE__);
-                await mkdir(this.__STORAGE__);
+                await this.createStore();
             }
         } catch (error) {
             // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
-            await mkdir(this.__STORAGE__);
-        } finally {
-            await mkdir(this.path("/public"));
-            this.logger.log(`Installed storage at ${this.__STORAGE__}`);
+            await this.createStore();
         }
     }
+
+    public async createPublicStoreIfNotExists() {}
 
     public async storeMulterFile(file: Express.Multer.File, path: string) {
         const fileName = uuidv4();
