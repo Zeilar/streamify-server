@@ -41,7 +41,7 @@ export class VideoController {
     @UseGuards(VideoExistsGuard)
     public async getVideoById(@Param() params: FindOneVideoParams) {
         const [video, videoUrl] = await Promise.all([
-            this.videoService.findById(params.id),
+            this.videoService.findByIdAndView(params.id),
             this.videoService.getFileUrl(params.id),
         ]);
         return { video, videoUrl };

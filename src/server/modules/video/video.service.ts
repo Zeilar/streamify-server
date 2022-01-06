@@ -85,7 +85,7 @@ export class VideoService {
         return videoId;
     }
 
-    public async findById(id: FindOneId) {
+    public async findById(id: string) {
         const video = await this.videoRepository.findOne(id);
         if (!video) {
             throw new NotFoundException();
@@ -106,5 +106,12 @@ export class VideoService {
             take: 30,
             skip: 30,
         });
+    }
+
+    public async findByIdAndView(id: string): Promise<Video> {
+        const video = await this.findById(id);
+        const views = video.views + 1;
+        await this.videoRepository.update(id, { views });
+        return { ...video, views };
     }
 }
