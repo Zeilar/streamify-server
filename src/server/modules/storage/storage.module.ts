@@ -16,6 +16,6 @@ export class StorageModule implements OnModuleInit {
     public constructor(private readonly storageService: StorageService) {}
 
     public async onModuleInit() {
-        await this.storageService.createStoreIfNotExists();
+        await this.storageService.createStorageIfNotExists();
     }
 }

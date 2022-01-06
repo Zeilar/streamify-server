@@ -11,21 +11,21 @@ export class StorageService {
         this.__STORAGE__ = join(__dirname, "../../storage");
     }
 
-    private async createStore() {
+    private async createStorage() {
         await mkdir(`${this.__STORAGE__}/public`, { recursive: true });
         this.logger.log(`Installed storage at ${this.__STORAGE__}`);
     }
 
-    public async createStoreIfNotExists() {
+    public async createStorageIfNotExists() {
         try {
             const result = await stat(this.__STORAGE__);
             if (!result.isDirectory()) {
                 await rm(this.__STORAGE__);
-                await this.createStore();
+                await this.createStorage();
             }
         } catch (error) {
             // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
-            await this.createStore();
+            await this.createStorage();
         }
     }
 
