@@ -21,7 +21,9 @@ export default function Home() {
         });
         setUploading(false);
         if (ok) {
-            saveAs(new Blob([data.data]), `${file.name}.mp4`);
+            console.log(data);
+            // console.log(data.data, new Blob([data.data]));
+            // saveAs(new Blob([data.data]), `${file.name}.mp4`);
         }
     }
 

@@ -7,6 +7,8 @@ import session from "express-session";
 import { RequestMethod, ValidationPipe } from "@nestjs/common";
 import { DateHelper } from "./common/helpers/Date.helper";
 import { NODE_ENV } from "./@types/env";
+import express from "express";
+import { join } from "path";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -36,6 +38,8 @@ async function bootstrap() {
     app.setGlobalPrefix("/api/v1", {
         exclude: [{ path: "*", method: RequestMethod.GET }],
     });
+
+    app.use("/storage", express.static(join(__dirname, "storage/public")));
 
     await app.listen(configService.get<number>("port"));
 }

@@ -27,10 +27,12 @@ export class StorageService {
     }
 
     public async storeMulterFile(file: Express.Multer.File) {
-        const buffer = Buffer.from(file.buffer);
-        const path = join(this.__STORAGE__, uuidv4());
-        await writeFile(path, buffer);
-        return path;
+        const fileName = uuidv4();
+        await writeFile(
+            join(this.__STORAGE__, fileName),
+            Buffer.from(file.buffer)
+        );
+        return fileName;
     }
 
     public async delete(pathToFile: string) {

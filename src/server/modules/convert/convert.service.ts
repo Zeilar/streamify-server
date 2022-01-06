@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { StorageService } from "../storage/storage.service";
 import ffmpeg from "ffmpeg-static";
 import { execFile } from "child_process";
-import { readFile } from "fs/promises";
 import { promisify } from "util";
 
 const execFileAsync = promisify(execFile);
@@ -12,14 +11,17 @@ export class ConvertService {
     public constructor(private readonly storageService: StorageService) {}
 
     public async convert(videoFile: Express.Multer.File) {
-        const stored = await this.storageService.storeMulterFile(videoFile);
+        let stored = await this.storageService.storeMulterFile(videoFile);
+        stored = this.storageService.path(stored);
         const converted = `${stored}.mp4`;
-        await execFileAsync(ffmpeg, ["-i", stored, converted]);
-        const data = await readFile(converted);
-        await Promise.all([
-            this.storageService.delete(stored),
-            this.storageService.delete(converted),
+        await execFileAsync(ffmpeg, [
+            "-i",
+            stored,
+            "-codec",
+            "copy",
+            converted,
         ]);
-        return data;
+        await this.storageService.delete(stored);
+        return converted;
     }
 }

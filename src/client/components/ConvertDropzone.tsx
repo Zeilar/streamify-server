@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useState } from "react";
 import { useDropzone, FileError } from "react-dropzone";
 import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
@@ -89,7 +89,7 @@ export default function ConvertDropzone({ onSubmit }: Props) {
                 color="text.muted"
                 mt="0.5rem"
             >
-                Maximum file size
+                Only video formats supported. Maximum file size
                 {` ${prettyBytes(fileConfig.maxSize)}.`}
             </Text>
             <Box>
