@@ -7,6 +7,6 @@ export interface VideoSchema {
     id: string;
     title: string;
     visibility: Visibility;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

@@ -4,6 +4,7 @@ import { Video } from "../../../@types/video";
 import Head from "next/head";
 import Player from "../../../components/Player";
 import { ApiService } from "../../../services/ApiService";
+import { Text } from "@chakra-ui/react";
 
 interface VideoData {
     video?: Video;
@@ -27,6 +28,9 @@ export default function SingleVideo({ video, videoUrl }: VideoData) {
                 <meta property="og:video:height" content="720" />
             </Head>
             <Player src={url} />
+            <Text textStyle="h4" as="h4">
+                {video.title}
+            </Text>
         </div>
     );
 }
