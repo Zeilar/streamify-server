@@ -149,7 +149,7 @@ export default function UploadDropzone({ onSubmit }: Props) {
                         {form.formState.errors.title && (
                             <FormError
                                 message={form.formState.errors.title.message}
-                                mb="0.5rem"
+                                mb="0.25rem"
                             />
                         )}
                     </FormControl>

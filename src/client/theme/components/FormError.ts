@@ -5,6 +5,7 @@ export const FormError: StyleConfig = {
         text: {
             color: "danger",
             lineHeight: 1.5,
+            fontWeight: 500,
         },
     },
 };

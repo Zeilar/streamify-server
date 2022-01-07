@@ -9,6 +9,10 @@ export const Input: StyleConfig = {
                     borderColor: "primary.500",
                     boxShadow: "none",
                 },
+                _invalid: {
+                    borderColor: "danger",
+                    boxShadow: "none",
+                },
             },
         },
     },

@@ -1,13 +1,7 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Input,
-} from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks";
+import FormError from "../FormError";
 
 interface Fields {
     email: string;
@@ -37,9 +31,7 @@ export default function LoginForm() {
                     autoFocus
                     {...register("email", { required: "Email is required" })}
                 />
-                {errors.email && (
-                    <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-                )}
+                {errors.email && <FormError message={errors.email.message} />}
             </FormControl>
             <FormControl isInvalid={Boolean(errors.password)} mb="1.5rem">
                 <FormLabel htmlFor="password">Password</FormLabel>
@@ -52,9 +44,7 @@ export default function LoginForm() {
                     })}
                 />
                 {errors.password && (
-                    <FormErrorMessage>
-                        {errors.password.message}
-                    </FormErrorMessage>
+                    <FormError message={errors.password.message} />
                 )}
             </FormControl>
             <Button isLoading={isSubmitting} type="submit">
