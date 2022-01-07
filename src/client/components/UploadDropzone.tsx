@@ -5,9 +5,10 @@ import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
 import Player from "./Player";
 import { Button } from "@chakra-ui/button";
-import { FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import { FormControl, Input } from "@chakra-ui/react";
 import Icon from "./Icon";
 import { useForm } from "react-hook-form";
+import FormError from "./FormError";
 
 enum ErrorDict {
     "file-too-large" = "The video is too large.",
@@ -146,9 +147,10 @@ export default function UploadDropzone({ onSubmit }: Props) {
                             })}
                         />
                         {form.formState.errors.title && (
-                            <FormErrorMessage>
-                                {form.formState.errors.title.message}
-                            </FormErrorMessage>
+                            <FormError
+                                message={form.formState.errors.title.message}
+                                mb="0.5rem"
+                            />
                         )}
                     </FormControl>
                     <Player src={preview} />
