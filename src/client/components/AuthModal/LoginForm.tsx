@@ -41,6 +41,7 @@ export default function LoginForm({ flip }: Props) {
                     ml="auto"
                     display="flex"
                     fontSize="1.25rem"
+                    _hover={{ color: "primary.500" }}
                 >
                     Register
                     <Icon icon="mdiChevronRight" w="1.25rem" h="1.25rem" />
