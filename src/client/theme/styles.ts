@@ -41,15 +41,11 @@ export const styles = {
         },
         ".chakra-toast__inner": {
             ".chakra-alert": {
-                bgColor: "primary.500",
                 '> button[aria-label="Close"]': {
                     _focus: {
                         boxShadow: "none",
                     },
                 },
-            },
-            ".chakra-alert__title": {
-                fontWeight: 600,
             },
         },
     },
