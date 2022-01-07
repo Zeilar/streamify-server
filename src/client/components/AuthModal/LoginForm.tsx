@@ -40,6 +40,7 @@ export default function LoginForm({ flip }: Props) {
                     onClick={flip}
                     ml="auto"
                     display="flex"
+                    fontSize="1.25rem"
                 >
                     Register
                     <Icon icon="mdiChevronRight" w="1.25rem" h="1.25rem" />
