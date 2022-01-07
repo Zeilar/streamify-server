@@ -40,35 +40,22 @@ export default function AuthModal() {
                 <ModalContent>
                     <ModalCloseButton />
                     <ModalHeader>
-                        <Text textAlign="center" textStyle="h4">
-                            Authentication
+                        <Text
+                            as="h4"
+                            textAlign="center"
+                            textStyle="h4"
+                            textTransform="capitalize"
+                        >
+                            {activeTab}
                         </Text>
                     </ModalHeader>
                     <ModalBody overflowX="hidden" p={0}>
-                        <Flex
-                            justifyContent="space-evenly"
-                            alignItems="center"
-                            mx="1.5rem"
-                            pos="relative"
-                            mb="1rem"
-                        >
-                            <Tab
-                                onClick={() => openModal("login")}
-                                active={activeTab === "login"}
-                            >
-                                <Icon icon="mdiLockOpen" mr="0.5rem" />
-                                Login
-                            </Tab>
-                            <Tab
-                                onClick={() => openModal("register")}
-                                active={activeTab === "register"}
-                            >
-                                <Icon icon="mdiAccountPlus" mr="0.5rem" />
-                                Register
-                            </Tab>
-                        </Flex>
-                        {activeTab === "login" && <LoginForm />}
-                        {activeTab === "register" && <RegisterForm />}
+                        {activeTab === "login" && (
+                            <LoginForm flip={() => setActiveTab("register")} />
+                        )}
+                        {activeTab === "register" && (
+                            <RegisterForm flip={() => setActiveTab("login")} />
+                        )}
                     </ModalBody>
                 </ModalContent>
             </Modal>

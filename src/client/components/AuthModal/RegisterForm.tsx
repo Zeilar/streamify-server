@@ -1,7 +1,15 @@
-import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Flex,
+    FormControl,
+    FormLabel,
+    Input,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks";
 import FormError from "../FormError";
+import Icon from "../Icon";
 
 interface Fields {
     email: string;
@@ -9,7 +17,11 @@ interface Fields {
     passwordConfirmation: string;
 }
 
-export default function RegisterForm() {
+interface Props {
+    flip(): void;
+}
+
+export default function RegisterForm({ flip }: Props) {
     const auth = useAuth();
     const {
         handleSubmit,
@@ -23,7 +35,19 @@ export default function RegisterForm() {
     }
 
     return (
-        <Box p="1.5rem" as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box p="1.5rem" pt={0} as="form" onSubmit={handleSubmit(onSubmit)}>
+            <Flex mb="1rem">
+                <Button
+                    variant="unstyled"
+                    onClick={flip}
+                    display="flex"
+                    paddingInline={0}
+                    fontSize="1.25rem"
+                >
+                    <Icon icon="mdiChevronLeft" w="1.5rem" h="1.5rem" />
+                    Login
+                </Button>
+            </Flex>
             <FormControl isInvalid={Boolean(errors.email)} mb="1.5rem">
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
