@@ -1,8 +1,5 @@
 import {
-    Box,
     Button,
-    Divider,
-    Flex,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -13,10 +10,8 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Tab from "./Tab";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
-import Icon from "../Icon";
 
 type Tab = "login" | "register";
 
