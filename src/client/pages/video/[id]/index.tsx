@@ -7,8 +7,8 @@ import { Flex, Text } from "@chakra-ui/react";
 import Icon from "../../../components/Icon";
 
 interface VideoData {
-    video?: Video;
-    videoUrl?: string;
+    video: Video;
+    videoUrl: string;
 }
 
 export default function SingleVideo({ video, videoUrl }: VideoData) {
@@ -44,6 +44,9 @@ export default function SingleVideo({ video, videoUrl }: VideoData) {
 export async function getServerSideProps(
     context: GetServerSidePropsContext<{ id: string }>
 ) {
+    if (!context.params?.id) {
+        throw new Error("No id param provided.");
+    }
     const apiService = new ApiService();
     const { data } = await apiService.request<VideoData>(
         `/video/${context.params.id}`

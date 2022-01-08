@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Ok, Err } from "ts-results";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -16,10 +15,10 @@ export class ApiService {
                 url,
                 ...config,
             });
-            return new Ok(response);
+            return { ...response, ok: true } as const;
         } catch (error) {
             const response: AxiosResponse<ErrorResponse> = error.response;
-            return new Err(response);
+            return { ...response, ok: false } as const;
         }
     }
 }

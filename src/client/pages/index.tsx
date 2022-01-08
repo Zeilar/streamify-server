@@ -25,9 +25,8 @@ export default function Home() {
         });
         setUploading(false);
         if (response.ok) {
-            router.push(`/video/${response.val.data.id}`);
+            router.push(`/video/${response.data.id}`);
         } else {
-            console.log(response.val.data);
             toast({
                 title: "Failed uploading file",
                 status: "error",
