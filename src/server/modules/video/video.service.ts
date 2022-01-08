@@ -58,24 +58,21 @@ export class VideoService {
         const arrayBuffer = Uint8Array.from(buffer).buffer;
         if (
             arrayBuffer.byteLength >
-            this.configService.get<number>("maxFileSize")
+            this.configService.get<number>("maxFileSize", { infer: true })
         ) {
             throw new PayloadTooLargeException();
         }
-        const { mime } = await fromBuffer(arrayBuffer);
-        if (mime !== "video/mp4") {
+        const result = await fromBuffer(arrayBuffer);
+        if (result?.mime !== "video/mp4") {
             throw new UnsupportedMediaTypeException();
         }
         const videoId = await this.generateId();
-        let user: User;
-        if (userId) {
-            user = await this.userService.findById(userId);
-            if (!user) {
-                throw new InternalServerErrorException(
-                    "The user that uploaded this video could not be found."
-                );
-            }
+        if (userId && !this.userService.exists(userId)) {
+            throw new InternalServerErrorException(
+                "The user that uploaded this video could not be found."
+            );
         }
+        const user = await this.userService.findById(userId);
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
         await this.videoRepository.insert({
             id: videoId,
