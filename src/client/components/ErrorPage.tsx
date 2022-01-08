@@ -9,14 +9,16 @@ export default function ErrorPage({ code, message }: Props) {
     return (
         <Flex flexGrow={1} alignItems="center" justifyContent="center">
             <Flex h="5rem" alignItems="center">
-                <Text textStyle="h2">{code}</Text>
+                <Text textStyle="h3" as="h3">
+                    {code}
+                </Text>
                 <Divider
                     orientation="vertical"
                     mx="1rem"
                     borderWidth="1px"
                     borderColor="primary.500"
                 />
-                <Text textStyle="h6">{message}</Text>
+                <Text textStyle="h3">{message}</Text>
             </Flex>
         </Flex>
     );
