@@ -1,37 +1,25 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { Ok, Err } from "ts-results";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-type Response<T> = AxiosResponse<T> & {
-    ok: boolean;
-    clientError: boolean;
-    serverError: boolean;
-};
+interface ErrorResponse {
+    error: string;
+    message: string;
+    statusCode: number;
+}
 
 export class ApiService {
-    public async request<T>(
-        url: string,
-        config?: AxiosRequestConfig
-    ): Promise<Response<T>> {
+    public async request<T>(url: string, config?: AxiosRequestConfig) {
         try {
             const response: AxiosResponse<T> = await axios({
                 url,
                 ...config,
             });
-            return {
-                ...response,
-                ok: response.status < 400,
-                clientError: response.status >= 400 && response.status < 500,
-                serverError: response.status >= 500,
-            };
+            return new Ok(response);
         } catch (error) {
-            const response: AxiosResponse = error.response;
-            return {
-                ...response,
-                ok: response.status < 400,
-                clientError: response.status >= 400 && response.status < 500,
-                serverError: response.status >= 500,
-            };
+            const response: AxiosResponse<ErrorResponse> = error.response;
+            return new Err(response);
         }
     }
 }

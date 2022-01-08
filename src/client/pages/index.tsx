@@ -17,19 +17,17 @@ export default function Home() {
         formData.append("title", title);
         formData.append("visibility", "public");
         setUploading(true);
-        const { data, ok } = await apiService.request<{ id: string }>(
-            "/video",
-            {
-                method: "POST",
-                data: formData,
-                onUploadProgress: (e: ProgressEvent) =>
-                    setProgress(Math.round((e.loaded * 100) / e.total)),
-            }
-        );
+        const response = await apiService.request<{ id: string }>("/video", {
+            method: "POST",
+            data: formData,
+            onUploadProgress: (e: ProgressEvent) =>
+                setProgress(Math.round((e.loaded * 100) / e.total)),
+        });
         setUploading(false);
-        if (ok) {
-            router.push(`/video/${data.id}`);
+        if (response.ok) {
+            router.push(`/video/${response.val.data.id}`);
         } else {
+            console.log(response.val.data);
             toast({
                 title: "Failed uploading file",
                 status: "error",
