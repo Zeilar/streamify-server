@@ -22,7 +22,7 @@ export class VideoService {
     public constructor(
         @InjectRepository(Video)
         private readonly videoRepository: Repository<Video>,
-        private readonly configService: ConfigService<VideoConfig>,
+        private readonly configService: ConfigService<VideoConfig, true>,
         private readonly userService: UserService,
         private readonly firebaseService: FirebaseService
     ) {}
@@ -31,7 +31,9 @@ export class VideoService {
     public async generateId(): Promise<string> {
         const base58alphabet =
             "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-        const id = Array(this.configService.get<number>("videoIdLength"))
+        const id = Array(
+            this.configService.get("videoIdLength", { infer: true })
+        )
             .fill(null)
             .map(
                 () =>
@@ -58,7 +60,7 @@ export class VideoService {
         const arrayBuffer = Uint8Array.from(buffer).buffer;
         if (
             arrayBuffer.byteLength >
-            this.configService.get<number>("maxFileSize", { infer: true })
+            this.configService.get("maxFileSize", { infer: true })
         ) {
             throw new PayloadTooLargeException();
         }

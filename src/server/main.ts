@@ -20,7 +20,7 @@ async function bootstrap() {
 
     app.use(
         session({
-            secret: configService.get<string>("SESSION_SECRET", {
+            secret: configService.get("SESSION_SECRET", {
                 infer: true,
             }),
             resave: false,
@@ -29,7 +29,8 @@ async function bootstrap() {
                 maxAge: dateHelper.DAY_IN_MILLISECONDS * 7,
                 httpOnly: true,
                 secure:
-                    configService.get<NODE_ENV>("NODE_ENV") === "production",
+                    configService.get("NODE_ENV", { infer: true }) ===
+                    "production",
                 sameSite: "strict",
             },
         }),
@@ -43,7 +44,7 @@ async function bootstrap() {
     });
     app.use("/storage", express.static(join(__dirname, "storage/public")));
 
-    await app.listen(configService.get<number>("port", { infer: true }));
+    await app.listen(configService.get("PORT", { infer: true }));
 }
 
 bootstrap();

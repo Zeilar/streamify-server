@@ -8,26 +8,34 @@ import {
     FirebaseStorage,
     getDownloadURL,
 } from "firebase/storage";
+import { EnvConfig } from "../../@types/config";
 
 @Injectable()
 export class FirebaseService {
     private app: FirebaseApp;
     private storage: FirebaseStorage;
 
-    public constructor(private readonly configService: ConfigService) {}
+    public constructor(
+        private readonly configService: ConfigService<EnvConfig, true>
+    ) {}
 
     public async init() {
         this.app = initializeApp({
-            apiKey: this.configService.get<string>("FIREBASE_API_KEY"),
-            authDomain: this.configService.get<string>("FIREBASE_AUTH_DOMAIN"),
-            projectId: this.configService.get<string>("FIREBASE_PROJECT_ID"),
-            storageBucket: this.configService.get<string>(
-                "FIREBASE_STORAGE_BUCKET"
+            apiKey: this.configService.get("FIREBASE_API_KEY", { infer: true }),
+            authDomain: this.configService.get("FIREBASE_AUTH_DOMAIN", {
+                infer: true,
+            }),
+            projectId: this.configService.get("FIREBASE_PROJECT_ID", {
+                infer: true,
+            }),
+            storageBucket: this.configService.get("FIREBASE_STORAGE_BUCKET", {
+                infer: true,
+            }),
+            messagingSenderId: this.configService.get(
+                "FIREBASE_MESSAGING_SENDER_ID",
+                { infer: true }
             ),
-            messagingSenderId: this.configService.get<string>(
-                "FIREBASE_MESSAGING_SENDER_ID"
-            ),
-            appId: this.configService.get<string>("FIREBASE_APP_ID"),
+            appId: this.configService.get("FIREBASE_APP_ID", { infer: true }),
         });
         this.storage = getStorage(this.app);
     }
