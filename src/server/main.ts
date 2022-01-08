@@ -14,12 +14,15 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         logger: ["error", "warn", "log", "debug"],
     });
-    const configService = app.get<ConfigService<EnvConfig>>(ConfigService);
+    const configService =
+        app.get<ConfigService<EnvConfig, true>>(ConfigService);
     const dateHelper = app.get(DateHelper);
 
     app.use(
         session({
-            secret: configService.get<string>("SESSION_SECRET"),
+            secret: configService.get<string>("SESSION_SECRET", {
+                infer: true,
+            }),
             resave: false,
             saveUninitialized: false,
             cookie: {
@@ -40,7 +43,7 @@ async function bootstrap() {
     });
     app.use("/storage", express.static(join(__dirname, "storage/public")));
 
-    await app.listen(configService.get<number>("port"));
+    await app.listen(configService.get<number>("port", { infer: true }));
 }
 
 bootstrap();

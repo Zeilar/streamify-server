@@ -16,7 +16,10 @@ export class HashService {
     public async hash(data: string | Buffer, saltOrRounds?: string | number) {
         return await hash(
             data,
-            saltOrRounds ?? this.configService.get<number>("bcrypt_saltRounds")
+            saltOrRounds ??
+                this.configService.get<number>("bcrypt_saltRounds", {
+                    infer: true,
+                })
         );
     }
 }

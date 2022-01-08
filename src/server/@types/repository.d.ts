@@ -1,1 +1,1 @@
-export type FindOneId = string | number | undefined;
+export type FindOneId = string | number;

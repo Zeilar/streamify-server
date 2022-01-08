@@ -15,9 +15,8 @@ export class EditUserGuard implements CanActivate {
 
     public async canActivate(context: ExecutionContext) {
         const request = context.switchToHttp().getRequest();
-        const { id } = request.params;
-        const user = await this.userService.findById(id);
-        if (user.id !== request.user.id) {
+        const user = await this.userService.findById(request.params.id);
+        if (!user || user.id !== request.user.id) {
             throw new ForbiddenException();
         }
         return request;

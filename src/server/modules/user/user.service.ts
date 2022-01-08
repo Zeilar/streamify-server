@@ -28,18 +28,16 @@ export class UserService {
         });
     }
 
-    public async findOne(column: keyof User, value: any) {
-        const user = await this.userRepository.findOne({
-            where: { [column]: value },
-        });
+    public async findOne(column: keyof UserSchema, value: any) {
+        const user = await this.userRepository.findOne({ [column]: value });
         if (!user) {
             throw new NotFoundException();
         }
         return user;
     }
 
-    public async findById(id: FindOneId) {
-        return await this.findOne("id", id);
+    public async findById(id?: FindOneId) {
+        return await this.userRepository.findOne(id);
     }
 
     public async exists(idOrcolumn: FindOneId): Promise<boolean>;
