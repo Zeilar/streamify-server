@@ -1,13 +1,12 @@
 import { Flex, Progress, Text, useToast } from "@chakra-ui/react";
 import UploadDropzone from "../components/UploadDropzone";
 import { useRouter } from "next/router";
-import { useInject } from "../hooks";
 import { useState } from "react";
 import Head from "next/head";
+import { apiService } from "../services";
 
 export default function Home() {
     const router = useRouter();
-    const { apiService } = useInject();
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
     const toast = useToast();
@@ -39,6 +38,9 @@ export default function Home() {
 
     return (
         <Flex flexDir="column" alignItems="center">
+            <button onClick={() => apiService.request("/auth/whoami")}>
+                Test
+            </button>
             <Head>
                 <title>mp4</title>
             </Head>

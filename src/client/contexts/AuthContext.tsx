@@ -1,10 +1,10 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { User } from "../@types/user";
-import { useInject } from "../hooks/useInject";
+import { apiService } from "../services";
 
 interface IAuthContext {
-    user: User;
+    user: User | null;
     setUser: React.Dispatch<User>;
     login(payload: LoginOrRegisterPayload): Promise<void>;
     register(payload: LoginOrRegisterPayload): Promise<void>;
@@ -25,8 +25,18 @@ export const AuthContext = createContext({} as IAuthContext);
 
 export function AuthContextProvider({ children }: AuthProps) {
     const toast = useToast();
-    const { apiService } = useInject();
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        whoami();
+    }, []);
+
+    async function whoami() {
+        const response = await apiService.request<User>("/auth/whoami");
+        if (response.ok) {
+            setUser(response.data);
+        }
+    }
 
     async function login(payload: LoginOrRegisterPayload) {
         const response = await apiService.request<User>("/auth/login", {
@@ -45,24 +55,24 @@ export function AuthContextProvider({ children }: AuthProps) {
     }
 
     async function register(payload: LoginOrRegisterPayload) {
-        const { ok, data } = await apiService.request<User>("/auth/register", {
+        const response = await apiService.request<User>("/auth/register", {
             data: payload,
             method: "POST",
         });
-        if (ok) {
+        if (response.ok) {
             toast({
                 title: "Created your account!",
                 status: "success",
                 isClosable: true,
                 position: "top",
             });
-            setUser(data);
+            setUser(response.data);
         }
     }
 
     async function logout() {
-        const { ok } = await apiService.request("/auth/logout");
-        if (ok) {
+        const response = await apiService.request("/auth/logout");
+        if (response.ok) {
             toast({
                 title: "Logged out",
                 status: "success",

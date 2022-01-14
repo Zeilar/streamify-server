@@ -1,12 +1,11 @@
 import { Flex, Progress, Text, useToast } from "@chakra-ui/react";
 import ConvertDropzone from "../../components/ConvertDropzone";
-import { useInject } from "../../hooks";
 import { useState } from "react";
 import { saveAs } from "file-saver";
 import Head from "next/head";
+import { apiService } from "../../services";
 
 export default function Home() {
-    const { apiService } = useInject();
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
     const toast = useToast();

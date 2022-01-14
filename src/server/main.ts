@@ -6,7 +6,6 @@ import { AppModule } from "./modules/app/app.module";
 import session from "express-session";
 import { RequestMethod, ValidationPipe } from "@nestjs/common";
 import { DateHelper } from "./common/helpers/Date.helper";
-import { NODE_ENV } from "./@types/env";
 import express from "express";
 import { join } from "path";
 
