@@ -38,9 +38,6 @@ export default function Home() {
 
     return (
         <Flex flexDir="column" alignItems="center">
-            <button onClick={() => apiService.request("/auth/whoami")}>
-                Test
-            </button>
             <Head>
                 <title>mp4</title>
             </Head>
