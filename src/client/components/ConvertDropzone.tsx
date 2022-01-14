@@ -12,7 +12,7 @@ enum ErrorDict {
 }
 
 interface Props {
-    onSubmit(file: File): void;
+    onSubmit(file: File): Promise<void>;
 }
 
 const baseStyle: CSSProperties = {
@@ -62,8 +62,6 @@ export default function ConvertDropzone({ onSubmit }: Props) {
     });
 
     const selectedVideo = acceptedFiles[0];
-
-    // console.log({ selectedVideo });
 
     const style = {
         ...baseStyle,

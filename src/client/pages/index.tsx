@@ -3,6 +3,7 @@ import UploadDropzone from "../components/UploadDropzone";
 import { useRouter } from "next/router";
 import { useInject } from "../hooks";
 import { useState } from "react";
+import Head from "next/head";
 
 export default function Home() {
     const router = useRouter();
@@ -38,6 +39,9 @@ export default function Home() {
 
     return (
         <Flex flexDir="column" alignItems="center">
+            <Head>
+                <title>mp4</title>
+            </Head>
             <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
                 Upload mp4 video
             </Text>

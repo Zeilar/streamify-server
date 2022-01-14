@@ -15,7 +15,6 @@ export class VideoExistsGuard implements CanActivate {
         const { id } = request.params;
         const video = await this.videoService.findById(id);
         if (!video) {
-            console.log("rip");
             throw new NotFoundException();
         }
         return request;

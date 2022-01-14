@@ -16,6 +16,7 @@ export default function SingleVideo({ video, videoUrl }: VideoData) {
     return (
         <div>
             <Head>
+                <title>mp4 | {video.title}</title>
                 <meta property="og:title" content={video.title} />
                 <meta property="og:url" content={url} />
                 <meta property="og:site_name" content="mp4" />

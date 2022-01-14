@@ -3,6 +3,7 @@ import ConvertDropzone from "../../components/ConvertDropzone";
 import { useInject } from "../../hooks";
 import { useState } from "react";
 import { saveAs } from "file-saver";
+import Head from "next/head";
 
 export default function Home() {
     const { apiService } = useInject();
@@ -38,6 +39,9 @@ export default function Home() {
 
     return (
         <Flex flexDir="column" alignItems="center">
+            <Head>
+                <title>mp4 | Convert</title>
+            </Head>
             <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
                 Convert video to mp4
             </Text>
