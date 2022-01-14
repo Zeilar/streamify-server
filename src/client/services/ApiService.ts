@@ -13,6 +13,7 @@ export class ApiService {
         try {
             const response: AxiosResponse<T> = await axios({
                 url,
+                withCredentials: true,
                 ...config,
             });
             return { ...response, ok: true } as const;
