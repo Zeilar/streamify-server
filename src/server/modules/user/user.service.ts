@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FindOneId } from "../../@types/repository";
 import { UserSchema } from "../../@types/user";
+import { UserNotFoundException } from "../../common/exceptions/userNotFound.exception";
 import { EditUserDto } from "../../common/validators/editUser.validator";
 import { CreateUserDto } from "../../common/validators/register.validator";
 import { HashService } from "../hash/hash.service";
@@ -28,8 +29,15 @@ export class UserService {
         return this.userRepository.findOne({ [column]: value });
     }
 
-    public findById(id?: FindOneId) {
-        return this.userRepository.findOne(id);
+    public async findById(id?: FindOneId, safe?: boolean) {
+        const user = await this.userRepository.findOne(id);
+        if (!user) {
+            if (safe) {
+                return null;
+            }
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
     public async exists(idOrcolumn: FindOneId): Promise<boolean>;

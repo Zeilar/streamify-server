@@ -18,6 +18,8 @@ import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.v
 import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
 import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
+import { VideoTooLargeException } from "../../common/exceptions/VideoTooLargeException.exception";
+import { VideoUnsupportedFormatException } from "../../common/exceptions/VideoUnsupportedFormatException.exception";
 
 @Controller("/videos")
 export class VideoController {
@@ -26,6 +28,7 @@ export class VideoController {
     @Post("/")
     @UseInterceptors(FileInterceptor("video"))
     @UseGuards(ThrottlerGuard)
+    @UseFilters(VideoTooLargeException, VideoUnsupportedFormatException)
     public async upload(
         @UploadedFile() video: Express.Multer.File,
         @Body() videoDto: UploadVideoDto,

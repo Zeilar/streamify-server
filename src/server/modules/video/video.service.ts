@@ -15,6 +15,9 @@ import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
 import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
+import { User } from "../user/user.entity";
+import { VideoTooLargeException } from "../../common/exceptions/VideoTooLargeException.exception";
+import { VideoUnsupportedFormatException } from "../../common/exceptions/VideoUnsupportedFormatException.exception";
 
 @Injectable()
 export class VideoService {
@@ -61,19 +64,14 @@ export class VideoService {
             arrayBuffer.byteLength >
             this.configService.get("maxFileSize", { infer: true })
         ) {
-            throw new PayloadTooLargeException();
+            throw new VideoTooLargeException();
         }
         const result = await fromBuffer(arrayBuffer);
         if (result?.mime !== "video/mp4") {
-            throw new UnsupportedMediaTypeException();
+            throw new VideoUnsupportedFormatException();
         }
         const videoId = await this.generateId();
-        if (userId && !this.userService.exists(userId)) {
-            throw new InternalServerErrorException(
-                "The user that uploaded this video could not be found."
-            );
-        }
-        const user = await this.userService.findById(userId);
+        const user = await this.userService.findById(userId, true);
         await this.firebaseService.uploadVideo(videoId, arrayBuffer);
         await this.videoRepository.insert({
             id: videoId,
@@ -87,7 +85,7 @@ export class VideoService {
         return this.videoRepository.findOne(id);
     }
 
-    public async getFileUrl(id: string) {
+    public getFileUrl(id: string) {
         return this.firebaseService.getVideoFileUrl(id);
     }
 
