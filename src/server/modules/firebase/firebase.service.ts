@@ -40,13 +40,13 @@ export class FirebaseService {
         this.storage = getStorage(this.app);
     }
 
-    public async uploadVideo(id: string, videoFile: ArrayBufferLike) {
-        await uploadBytes(ref(this.storage, `/videos/${id}`), videoFile, {
+    public uploadVideo(id: string, videoFile: ArrayBufferLike) {
+        uploadBytes(ref(this.storage, `/videos/${id}`), videoFile, {
             contentType: "video/mp4",
         });
     }
 
-    public async getVideoFileUrl(id: string) {
-        return await getDownloadURL(ref(this.storage, `/videos/${id}`));
+    public getVideoFileUrl(id: string) {
+        return getDownloadURL(ref(this.storage, `/videos/${id}`));
     }
 }

@@ -14,7 +14,6 @@ import { FirebaseService } from "../firebase/firebase.service";
 import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
-import { User } from "../user/user.entity";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
 
 @Injectable()
@@ -85,30 +84,29 @@ export class VideoService {
     }
 
     public async findById(id: string) {
-        const video = await this.videoRepository.findOne(id);
-        if (!video) {
-            throw new NotFoundException();
-        }
-        return video;
+        return this.videoRepository.findOne(id);
     }
 
     public async getFileUrl(id: string) {
         if (!(await this.exists(id))) {
             throw new NotFoundException();
         }
-        return await this.firebaseService.getVideoFileUrl(id);
+        return this.firebaseService.getVideoFileUrl(id);
     }
 
-    public async getPublic() {
-        return await this.videoRepository.find({
+    public getPublic() {
+        return this.videoRepository.find({
             where: { visibility: Visibility.PUBLIC },
             take: 30,
             skip: 30,
         });
     }
 
-    public async findByIdAndView(id: string): Promise<Video> {
+    public async findByIdAndView(id: string): Promise<Video | null> {
         const video = await this.findById(id);
+        if (!video) {
+            return null;
+        }
         const views = video.views + 1;
         await this.videoRepository.update(id, { views });
         return { ...video, views };

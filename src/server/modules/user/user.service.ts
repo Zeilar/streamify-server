@@ -1,8 +1,4 @@
-import {
-    ConflictException,
-    Injectable,
-    NotFoundException,
-} from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FindOneId } from "../../@types/repository";
@@ -28,16 +24,12 @@ export class UserService {
         });
     }
 
-    public async findOne(column: keyof UserSchema, value: any) {
-        const user = await this.userRepository.findOne({ [column]: value });
-        if (!user) {
-            throw new NotFoundException();
-        }
-        return user;
+    public findOne(column: keyof UserSchema, value: any) {
+        return this.userRepository.findOne({ [column]: value });
     }
 
-    public async findById(id?: FindOneId) {
-        return await this.userRepository.findOne(id);
+    public findById(id?: FindOneId) {
+        return this.userRepository.findOne(id);
     }
 
     public async exists(idOrcolumn: FindOneId): Promise<boolean>;
@@ -74,6 +66,6 @@ export class UserService {
             data.password = await this.hashService.hash(editUserDto.password);
         }
         // Using TypeORM entity events don't work when calling update like this as it doesn't create an instance
-        await this.userRepository.update(id, data);
+        this.userRepository.update(id, data);
     }
 }

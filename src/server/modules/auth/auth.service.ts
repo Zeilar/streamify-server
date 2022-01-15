@@ -12,7 +12,7 @@ export class AuthService {
     public async validateUser(email: string, password: string) {
         const user = await this.userService.findOne("email", email);
         if (!user) {
-            throw new NotFoundException();
+            return null;
         }
         if (await this.hashService.check(password, user.password)) {
             const { password, ...rest } = user;

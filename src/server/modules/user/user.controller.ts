@@ -3,6 +3,7 @@ import {
     Controller,
     Get,
     HttpCode,
+    NotFoundException,
     Param,
     Put,
     UseGuards,
@@ -19,8 +20,8 @@ export class UserController {
     public constructor(private readonly userService: UserService) {}
 
     @Get("/")
-    public async all() {
-        return await this.userService.all();
+    public all() {
+        return this.userService.all();
     }
 
     @UseGuards(UserExistsGuard, AuthenticatedGuard, EditUserGuard)
@@ -30,6 +31,9 @@ export class UserController {
         @Body() editUserDto: EditUserDto,
         @Param() params: FindOneParams
     ) {
-        await this.userService.edit(params.id, editUserDto);
+        if (!(await this.userService.exists(params.id))) {
+            throw new NotFoundException();
+        }
+        this.userService.edit(params.id, editUserDto);
     }
 }

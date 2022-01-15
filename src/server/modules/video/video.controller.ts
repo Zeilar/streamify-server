@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    NotFoundException,
     Param,
     Post,
     Req,
@@ -44,11 +45,14 @@ export class VideoController {
             this.videoService.findByIdAndView(params.id),
             this.videoService.getFileUrl(params.id),
         ]);
+        if (!video) {
+            throw new NotFoundException();
+        }
         return { video, videoUrl };
     }
 
     @Get("/public")
-    public async getPublic() {
-        return await this.videoService.getPublic();
+    public getPublic() {
+        return this.videoService.getPublic();
     }
 }

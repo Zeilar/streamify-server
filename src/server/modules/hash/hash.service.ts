@@ -13,8 +13,8 @@ export class HashService {
         return await compare(data, encrypted);
     }
 
-    public async hash(data: string | Buffer) {
-        return await hash(
+    public hash(data: string | Buffer) {
+        return hash(
             data,
             this.configService.get("bcrypt_saltRounds", {
                 infer: true,

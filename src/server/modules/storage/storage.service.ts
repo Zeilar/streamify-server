@@ -25,7 +25,7 @@ export class StorageService {
             }
         } catch (error) {
             // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
-            await this.createStorage();
+            this.createStorage();
         }
     }
 
@@ -39,7 +39,7 @@ export class StorageService {
     }
 
     public async delete(pathToFile: string) {
-        await rm(pathToFile);
+        rm(pathToFile);
     }
 
     public path(path: string) {

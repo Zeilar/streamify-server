@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { CSSProperties, useEffect, useState } from "react";
-import { useDropzone, FileError } from "react-dropzone";
+import { useDropzone, FileError, ErrorCode } from "react-dropzone";
 import { fileConfig } from "../config/file";
 import prettyBytes from "pretty-bytes";
 import Player from "./Player";
