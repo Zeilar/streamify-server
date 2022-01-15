@@ -23,7 +23,7 @@ interface Fields {
     title: string;
 }
 
-const baseStyle: CSSProperties = {
+const style: CSSProperties = {
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -40,30 +40,11 @@ const baseStyle: CSSProperties = {
     cursor: "pointer",
 };
 
-const activeStyle = {
-    borderColor: "#2196f3",
-};
-
-const acceptStyle = {
-    borderColor: "var(--chakra-colors-primary-500)",
-};
-
-const rejectStyle = {
-    borderColor: "var(--chakra-colors-danger)",
-};
-
 export default function UploadDropzone({ onSubmit }: Props) {
     const [preview, setPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<FileError[]>([]);
     const form = useForm<Fields>();
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        isDragActive,
-        isDragAccept,
-        isDragReject,
-    } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         accept: ".mp4",
         maxFiles: 1,
         maxSize: fileConfig.maxSize,
@@ -79,13 +60,6 @@ export default function UploadDropzone({ onSubmit }: Props) {
             setPreview(URL.createObjectURL(selectedVideo));
         }
     }, [selectedVideo]);
-
-    const style = {
-        ...baseStyle,
-        ...(isDragActive ? activeStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {}),
-    };
 
     async function submit({ title }: Fields) {
         await onSubmit(selectedVideo, title);

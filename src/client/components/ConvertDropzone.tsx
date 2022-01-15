@@ -15,7 +15,7 @@ interface Props {
     onSubmit(file: File): Promise<void>;
 }
 
-const baseStyle: CSSProperties = {
+const style: CSSProperties = {
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -50,13 +50,6 @@ export default function ConvertDropzone({ onSubmit }: Props) {
     });
 
     const selectedVideo = acceptedFiles[0];
-
-    const style = {
-        ...baseStyle,
-        ...(isDragActive ? activeStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {}),
-    };
 
     return (
         <Flex
