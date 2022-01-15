@@ -19,7 +19,7 @@ export class FirebaseService {
         private readonly configService: ConfigService<EnvConfig, true>
     ) {}
 
-    public async init() {
+    public init() {
         this.app = initializeApp({
             apiKey: this.configService.get("FIREBASE_API_KEY", { infer: true }),
             authDomain: this.configService.get("FIREBASE_AUTH_DOMAIN", {
