@@ -146,7 +146,7 @@ export default function UploadDropzone({ onSubmit }: Props) {
                                 },
                             })}
                         />
-                        {form.formState.errors.title && (
+                        {form.formState.errors.title?.message && (
                             <FormError
                                 message={form.formState.errors.title.message}
                                 mb="0.25rem"

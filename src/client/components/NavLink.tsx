@@ -21,11 +21,11 @@ export default function Logo({ href, children, ...props }: Props) {
                 _hover={{ _after: { w: "100%" } }}
                 _after={{
                     content: `""`,
-                    transition: "0.15s",
                     pos: "absolute",
                     bottom: 0,
                     left: 0,
                     h: "2px",
+                    transition: "0.15s",
                     w: active ? "100%" : 0,
                     bgColor: active ? "primary.500" : "primary.300",
                 }}

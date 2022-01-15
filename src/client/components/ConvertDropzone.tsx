@@ -32,18 +32,6 @@ const baseStyle: CSSProperties = {
     cursor: "pointer",
 };
 
-const activeStyle = {
-    borderColor: "#2196f3",
-};
-
-const acceptStyle = {
-    borderColor: "var(--chakra-colors-primary-500)",
-};
-
-const rejectStyle = {
-    borderColor: "var(--chakra-colors-danger)",
-};
-
 export default function ConvertDropzone({ onSubmit }: Props) {
     const [errors, setErrors] = useState<FileError[]>([]);
     const {
