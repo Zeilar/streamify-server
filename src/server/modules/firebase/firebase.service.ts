@@ -40,7 +40,7 @@ export class FirebaseService {
         this.storage = getStorage(this.app);
     }
 
-    public uploadVideo(id: string, videoFile: ArrayBufferLike) {
+    public async uploadVideo(id: string, videoFile: ArrayBufferLike) {
         uploadBytes(ref(this.storage, `/videos/${id}`), videoFile, {
             contentType: "video/mp4",
         });
