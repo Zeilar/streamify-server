@@ -83,7 +83,7 @@ export class VideoService {
         return videoId;
     }
 
-    public async findById(id: string) {
+    public findById(id: string) {
         return this.videoRepository.findOne(id);
     }
 
