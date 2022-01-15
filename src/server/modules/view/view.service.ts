@@ -16,7 +16,7 @@ export class ViewService implements OnModuleInit {
         return this.nextServer;
     }
 
-    public async onModuleInit() {
+    public onModuleInit() {
         try {
             const dev =
                 this.configService.get("NODE_ENV", { infer: true }) ===
