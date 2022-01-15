@@ -19,7 +19,7 @@ import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
 import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
 
-@Controller("/video")
+@Controller("/videos")
 export class VideoController {
     public constructor(private readonly videoService: VideoService) {}
 
@@ -39,19 +39,17 @@ export class VideoController {
         return { id };
     }
 
+    @Get("/public")
+    public getPublic() {
+        return this.videoService.getPublic();
+    }
+
     @Get("/:id")
     @UseGuards(VideoExistsGuard)
     @UseFilters(VideoNotFoundException)
     public async getVideoById(@Param() params: FindOneVideoParams) {
-        const [video, videoUrl] = await Promise.all([
-            this.videoService.findByIdAndView(params.id),
-            this.videoService.getFileUrl(params.id),
-        ]);
+        const video = await this.videoService.findByIdAndView(params.id);
+        const videoUrl = await this.videoService.getFileUrl(video.id);
         return { video, videoUrl };
-    }
-
-    @Get("/public")
-    public getPublic() {
-        return this.videoService.getPublic();
     }
 }

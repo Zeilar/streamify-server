@@ -50,7 +50,7 @@ export async function getServerSideProps(
     }
     const apiService = new ApiService();
     const { data } = await apiService.request<VideoData>(
-        `/video/${context.params.id}`
+        `/videos/${context.params.id}`
     );
     return { props: data };
 }

@@ -88,9 +88,6 @@ export class VideoService {
     }
 
     public async getFileUrl(id: string) {
-        if (!(await this.exists(id))) {
-            throw new VideoNotFoundException();
-        }
         return this.firebaseService.getVideoFileUrl(id);
     }
 
@@ -102,7 +99,7 @@ export class VideoService {
         });
     }
 
-    public async findByIdAndView(id: string): Promise<Video | null> {
+    public async findByIdAndView(id: string): Promise<Video> {
         const video = await this.findById(id);
         if (!video) {
             throw new VideoNotFoundException();
