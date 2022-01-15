@@ -2,11 +2,11 @@ import {
     Body,
     Controller,
     Get,
-    NotFoundException,
     Param,
     Post,
     Req,
     UploadedFile,
+    UseFilters,
     UseGuards,
     UseInterceptors,
 } from "@nestjs/common";
@@ -17,6 +17,7 @@ import { Request } from "express";
 import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
 import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
+import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
 
 @Controller("/video")
 export class VideoController {
@@ -40,14 +41,12 @@ export class VideoController {
 
     @Get("/:id")
     @UseGuards(VideoExistsGuard)
+    @UseFilters(VideoNotFoundException)
     public async getVideoById(@Param() params: FindOneVideoParams) {
         const [video, videoUrl] = await Promise.all([
             this.videoService.findByIdAndView(params.id),
             this.videoService.getFileUrl(params.id),
         ]);
-        if (!video) {
-            throw new NotFoundException();
-        }
         return { video, videoUrl };
     }
 

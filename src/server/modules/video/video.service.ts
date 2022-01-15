@@ -1,7 +1,6 @@
 import {
     Injectable,
     InternalServerErrorException,
-    NotFoundException,
     PayloadTooLargeException,
     UnsupportedMediaTypeException,
 } from "@nestjs/common";
@@ -15,6 +14,7 @@ import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
+import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
 
 @Injectable()
 export class VideoService {
@@ -89,7 +89,7 @@ export class VideoService {
 
     public async getFileUrl(id: string) {
         if (!(await this.exists(id))) {
-            throw new NotFoundException();
+            throw new VideoNotFoundException();
         }
         return this.firebaseService.getVideoFileUrl(id);
     }
@@ -105,7 +105,7 @@ export class VideoService {
     public async findByIdAndView(id: string): Promise<Video | null> {
         const video = await this.findById(id);
         if (!video) {
-            return null;
+            throw new VideoNotFoundException();
         }
         const views = video.views + 1;
         await this.videoRepository.update(id, { views });
