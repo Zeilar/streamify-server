@@ -7,9 +7,9 @@ export class ViewController {
     public constructor(private readonly viewService: ViewService) {}
 
     @Get("*")
-    public async serveClient(@Req() req: Request, @Res() res: Response) {
+    public serveClient(@Req() req: Request, @Res() res: Response) {
         const nextServer = this.viewService.getNextServer();
         const handler = nextServer.getRequestHandler();
-        await handler(req, res);
+        handler(req, res);
     }
 }
