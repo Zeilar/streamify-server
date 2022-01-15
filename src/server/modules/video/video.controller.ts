@@ -2,7 +2,6 @@ import {
     Body,
     Controller,
     Get,
-    HttpException,
     Param,
     Post,
     Req,
@@ -18,6 +17,7 @@ import { Request } from "express";
 import { FindOneVideoParams } from "../../common/validators/findOneVideoParams.validator";
 import { VideoExistsGuard } from "../../common/guards/videoExists.guard";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
+import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
 
 @Controller("/video")
 export class VideoController {
@@ -41,7 +41,7 @@ export class VideoController {
 
     @Get("/:id")
     @UseGuards(VideoExistsGuard)
-    @UseFilters(HttpException)
+    @UseFilters(VideoNotFoundException)
     public async getVideoById(@Param() params: FindOneVideoParams) {
         const [video, videoUrl] = await Promise.all([
             this.videoService.findByIdAndView(params.id),
