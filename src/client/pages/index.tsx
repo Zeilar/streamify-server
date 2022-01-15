@@ -17,7 +17,7 @@ export default function Home() {
         formData.append("title", title);
         formData.append("visibility", "public");
         setUploading(true);
-        const response = await apiService.request<{ id: string }>("videos", {
+        const response = await apiService.request<{ id: string }>("/videos", {
             method: "POST",
             data: formData,
             onUploadProgress: (e: ProgressEvent) =>
