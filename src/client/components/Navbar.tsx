@@ -11,7 +11,7 @@ export default function Navbar() {
             <Flex gridGap="1rem" alignItems="center">
                 <NextLink passHref href="/">
                     <Link
-                        textStyle="h3"
+                        textStyle="h2"
                         color="primary.500"
                         _hover={{ textDecor: "none" }}
                         userSelect="none"

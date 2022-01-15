@@ -1,4 +1,4 @@
-import { Link, LinkProps } from "@chakra-ui/react";
+import { Link, LinkProps, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
@@ -14,22 +14,26 @@ export default function Logo({ href, children, ...props }: Props) {
         <NextLink href={href} passHref>
             <Link
                 py="0.25rem"
-                px="1rem"
                 pos="relative"
                 rounded="md"
                 transition="none"
-                fontSize="1.25rem"
-                fontWeight={500}
-                bgColor={active ? "primary.500" : undefined}
-                color={active ? "black" : "text.default"}
                 userSelect="none"
-                _hover={{
-                    textDecor: "none",
-                    color: !active ? "primary.500" : undefined,
+                _hover={{ _after: { w: "100%" } }}
+                _after={{
+                    content: `""`,
+                    transition: "0.15s",
+                    pos: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    h: "2px",
+                    w: active ? "100%" : 0,
+                    bgColor: active ? "primary.500" : "primary.300",
                 }}
                 {...props}
             >
-                {children}
+                <Text textStyle="h6" color={active ? "primary.500" : undefined}>
+                    {children}
+                </Text>
             </Link>
         </NextLink>
     );

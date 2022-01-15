@@ -24,6 +24,9 @@ export const textStyles = {
             fontSize: ["1rem", "1.25rem"],
             fontWeight: 400,
         },
+        text: {
+            fontSize: "1rem",
+        },
         p: {
             fontSize: "1rem",
         },

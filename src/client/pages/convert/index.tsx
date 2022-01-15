@@ -1,5 +1,6 @@
 import { Flex, Progress, Text, useToast } from "@chakra-ui/react";
 import ConvertDropzone from "../../components/ConvertDropzone";
+import ConversionSuccessful from "../../components/ConversionSuccessful";
 import { useState } from "react";
 import { saveAs } from "file-saver";
 import Head from "next/head";
@@ -8,6 +9,7 @@ import { apiService } from "../../services";
 export default function Home() {
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [success, setSuccess] = useState(false);
     const toast = useToast();
 
     async function upload(file: File) {
@@ -26,6 +28,7 @@ export default function Home() {
                 `/storage/${data}.mp4`,
                 `${file.name.slice(0, file.name.lastIndexOf("."))}.mp4`
             );
+            setSuccess(true);
         } else {
             toast({
                 title: "Failed converting file",
@@ -41,23 +44,34 @@ export default function Home() {
             <Head>
                 <title>mp4 | Convert</title>
             </Head>
-            <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
-                Convert video to mp4
-            </Text>
-            {uploading && (
-                <Flex w="100%" flexDir="column">
-                    <Text
-                        textAlign="center"
-                        as="h6"
-                        textStyle="h6"
-                        mb="0.25rem"
-                    >
-                        Your video is being processed
+            {success ? (
+                <ConversionSuccessful onClick={() => setSuccess(false)} />
+            ) : (
+                <>
+                    <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
+                        Convert video to mp4
                     </Text>
-                    <Progress w="100%" value={progress} hasStripe isAnimated />
-                </Flex>
+                    {uploading && (
+                        <Flex w="100%" flexDir="column">
+                            <Text
+                                textAlign="center"
+                                as="h6"
+                                textStyle="h6"
+                                mb="0.25rem"
+                            >
+                                Your video is being processed
+                            </Text>
+                            <Progress
+                                w="100%"
+                                value={progress}
+                                hasStripe
+                                isAnimated
+                            />
+                        </Flex>
+                    )}
+                    {!uploading && <ConvertDropzone onSubmit={upload} />}
+                </>
             )}
-            {!uploading && <ConvertDropzone onSubmit={upload} />}
         </Flex>
     );
 }
