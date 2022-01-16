@@ -15,16 +15,10 @@ export class ConvertService {
             videoFile,
             "/public"
         );
-        const stored = this.storageService.path(`/public/${fileName}`);
-        const converted = `${stored}.mp4`;
-        await execFileAsync(ffmpeg, [
-            "-i",
-            stored,
-            "-codec",
-            "copy",
-            converted,
-        ]);
-        await this.storageService.delete(stored);
+        const input = this.storageService.path(`/public/${fileName}`);
+        const output = `${input}.mp4`;
+        await execFileAsync(ffmpeg, ["-i", input, "-codec", "copy", output]);
+        await this.storageService.delete(input);
         return fileName;
     }
 }

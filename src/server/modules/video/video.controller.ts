@@ -39,6 +39,7 @@ export class VideoController {
             videoDto,
             req.user?.id
         );
+        await this.videoService.generateThumbnail(id, video);
         return { id };
     }
 
@@ -53,6 +54,9 @@ export class VideoController {
     public async getVideoById(@Param() params: FindOneVideoParams) {
         const video = await this.videoService.findByIdAndView(params.id);
         const videoUrl = await this.videoService.getFileUrl(video.id);
-        return { video, videoUrl };
+        const videoThumbnail = await this.videoService.getThumbnailUrl(
+            video.id
+        );
+        return { video, videoUrl, videoThumbnail };
     }
 }

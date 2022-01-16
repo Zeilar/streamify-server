@@ -46,7 +46,17 @@ export class FirebaseService {
         });
     }
 
+    public async uploadThumbnail(id: string, buffer: ArrayBufferLike) {
+        uploadBytes(ref(this.storage, `/thumbnails/${id}`), buffer, {
+            contentType: "image/jpeg",
+        });
+    }
+
     public getVideoFileUrl(id: string) {
         return getDownloadURL(ref(this.storage, `/videos/${id}`));
+    }
+
+    public getThumbnailUrl(id: string) {
+        return getDownloadURL(ref(this.storage, `/thumbnails/${id}`));
     }
 }

@@ -9,7 +9,7 @@
         "allowSyntheticDefaultImports": true,
         "skipLibCheck": true,
         "target": "es2017",
-        "outDir": "./dist",
+        "outDir": "./src/dist",
         "incremental": true,
         "jsx": "preserve",
         "esModuleInterop": true,

@@ -15,7 +15,7 @@ import { StorageService } from "./storage.service";
 export class StorageModule implements OnModuleInit {
     public constructor(private readonly storageService: StorageService) {}
 
-    public async onModuleInit() {
-        await this.storageService.createStorageIfNotExists();
+    public onModuleInit() {
+        this.storageService.createStorageIfNotExists();
     }
 }

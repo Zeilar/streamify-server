@@ -1,5 +1,5 @@
 import { ConsoleLogger, Injectable } from "@nestjs/common";
-import { mkdir, stat, rm, writeFile } from "fs/promises";
+import { mkdir, stat, rm, writeFile, readFile } from "fs/promises";
 import { v4 as uuidv4 } from "uuid";
 import { join } from "path";
 
@@ -19,13 +19,14 @@ export class StorageService {
     public async createStorageIfNotExists() {
         try {
             const result = await stat(this.__STORAGE__);
-            if (!result.isDirectory()) {
-                await rm(this.__STORAGE__);
-                await this.createStorage();
+            if (result.isDirectory()) {
+                return;
             }
+            await rm(this.__STORAGE__);
+            await this.createStorage();
         } catch (error) {
             // If nothing at the path existed, it'll throw an error, which is to be expected on the first app bootstrap
-            this.createStorage();
+            await this.createStorage();
         }
     }
 
@@ -38,11 +39,18 @@ export class StorageService {
         return fileName;
     }
 
-    public async delete(pathToFile: string) {
-        rm(pathToFile);
+    public async delete(...pathToFile: string[]) {
+        pathToFile.forEach((path) => {
+            rm(path);
+        });
     }
 
     public path(path: string) {
         return join(this.__STORAGE__, path);
+    }
+
+    public async getFileBuffer(path: string) {
+        const fileBuffer = await readFile(path);
+        return fileBuffer.buffer;
     }
 }

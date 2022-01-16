@@ -1,10 +1,4 @@
-import {
-    Injectable,
-    InternalServerErrorException,
-    NotFoundException,
-    PayloadTooLargeException,
-    UnsupportedMediaTypeException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -15,9 +9,14 @@ import { UserService } from "../user/user.service";
 import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
-import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
 import { VideoTooLargeException } from "../../common/exceptions/VideoTooLargeException.exception";
 import { VideoUnsupportedFormatException } from "../../common/exceptions/VideoUnsupportedFormatException.exception";
+import { StorageService } from "../storage/storage.service";
+import { promisify } from "util";
+import { execFile } from "child_process";
+import ffmpeg from "ffmpeg-static";
+
+const execFileAsync = promisify(execFile);
 
 @Injectable()
 export class VideoService {
@@ -26,7 +25,8 @@ export class VideoService {
         private readonly videoRepository: Repository<Video>,
         private readonly configService: ConfigService<VideoConfig, true>,
         private readonly userService: UserService,
-        private readonly firebaseService: FirebaseService
+        private readonly firebaseService: FirebaseService,
+        private readonly storageService: StorageService
     ) {}
 
     // To make sure the resulting id is always the same length
@@ -51,6 +51,27 @@ export class VideoService {
     public async exists(id: string) {
         const videoCount = await this.videoRepository.count({ id });
         return videoCount > 0;
+    }
+
+    public async generateThumbnail(id: string, videoFile: Express.Multer.File) {
+        const fileName = await this.storageService.storeMulterFile(
+            videoFile,
+            "/public"
+        );
+        const input = this.storageService.path(`/public/${fileName}`);
+        const output = `${input}.jpg`;
+        await execFileAsync(ffmpeg, [
+            "-i",
+            input,
+            "-ss",
+            "00:00:01.000",
+            "-frames",
+            "1",
+            output,
+        ]);
+        const thumbnailBuffer = await this.storageService.getFileBuffer(output);
+        this.storageService.delete(input, output);
+        this.firebaseService.uploadThumbnail(id, thumbnailBuffer);
     }
 
     public async upload(
@@ -91,6 +112,10 @@ export class VideoService {
 
     public getFileUrl(id: string) {
         return this.firebaseService.getVideoFileUrl(id);
+    }
+
+    public getThumbnailUrl(id: string) {
+        return this.firebaseService.getThumbnailUrl(id);
     }
 
     public getPublic() {

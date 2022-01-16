@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { join } from "path";
 import { getConnectionOptions } from "typeorm";
 import { DateHelper } from "../../common/helpers/Date.helper";
 import { AuthModule } from "../auth/auth.module";

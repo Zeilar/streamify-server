@@ -9,9 +9,14 @@ import Icon from "../../../components/Icon";
 interface VideoData {
     video: Video;
     videoUrl: string;
+    videoThumbnail: string;
 }
 
-export default function SingleVideo({ video, videoUrl }: VideoData) {
+export default function SingleVideo({
+    video,
+    videoUrl,
+    videoThumbnail,
+}: VideoData) {
     const url = `${videoUrl}.mp4`;
     return (
         <div>
@@ -19,8 +24,10 @@ export default function SingleVideo({ video, videoUrl }: VideoData) {
                 <title>mp4 | {video.title}</title>
                 <meta property="og:title" content={video.title} />
                 <meta property="og:url" content={url} />
+                <meta property="og:image" content={videoThumbnail} />
+                <meta property="og:image:width" content="1280" />
+                <meta property="og:image:height" content="720" />
                 <meta property="og:site_name" content="mp4" />
-                <meta property="og:type" content="video" />
                 <meta property="og:video" content={url} />
                 <meta property="og:video:url" content={url} />
                 <meta property="og:video:secure_url" content={url} />
