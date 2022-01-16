@@ -42,7 +42,7 @@ export default function Home() {
     return (
         <Flex flexDir="column" alignItems="center">
             <Head>
-                <title>mp4 | Convert</title>
+                <title>Convert - mp4</title>
             </Head>
             {success ? (
                 <ConversionSuccessful onClick={() => setSuccess(false)} />

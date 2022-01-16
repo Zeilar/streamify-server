@@ -21,7 +21,7 @@ export default function SingleVideo({
     return (
         <div>
             <Head>
-                <title>mp4 | {video.title}</title>
+                <title>{video.title} - mp4</title>
                 <meta property="og:title" content={video.title} />
                 <meta property="og:url" content={mp4url} />
                 <meta property="og:image" content={videoThumbnail} />

@@ -10,7 +10,7 @@ export default function ErrorPage({ code, message }: Props) {
     return (
         <Flex flexGrow={1} alignItems="center" justifyContent="center">
             <Head>
-                <title>mp4 | {code}</title>
+                <title>{code} - mp4</title>
             </Head>
             <Flex h="4rem" alignItems="center">
                 <Text textStyle="h3" as="h3">
