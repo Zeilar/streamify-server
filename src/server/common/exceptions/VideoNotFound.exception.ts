@@ -8,10 +8,7 @@ import {
 import { Response } from "express";
 
 @Catch(NotFoundException)
-export class VideoNotFoundException
-    extends HttpException
-    implements ExceptionFilter
-{
+export class VideoNotFoundException implements ExceptionFilter {
     public catch(exception: NotFoundException, host: ArgumentsHost) {
         console.log(exception);
         const res = host.switchToHttp().getResponse<Response>();

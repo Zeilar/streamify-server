@@ -84,7 +84,6 @@ export class VideoService {
     public async findById(id: string) {
         const video = await this.videoRepository.findOne(id);
         if (!video) {
-            console.log("NO");
             throw new NotFoundException();
         }
         return video;
