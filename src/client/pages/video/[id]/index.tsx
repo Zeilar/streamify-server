@@ -17,25 +17,25 @@ export default function SingleVideo({
     videoUrl,
     videoThumbnail,
 }: VideoData) {
-    const url = `${videoUrl}.mp4`;
+    const mp4url = `${videoUrl}.mp4`;
     return (
         <div>
             <Head>
                 <title>mp4 | {video.title}</title>
                 <meta property="og:title" content={video.title} />
-                <meta property="og:url" content={url} />
+                <meta property="og:url" content={mp4url} />
                 <meta property="og:image" content={videoThumbnail} />
                 <meta property="og:image:width" content="1280" />
                 <meta property="og:image:height" content="720" />
                 <meta property="og:site_name" content="mp4" />
-                <meta property="og:video" content={url} />
-                <meta property="og:video:url" content={url} />
-                <meta property="og:video:secure_url" content={url} />
+                <meta property="og:video" content={mp4url} />
+                <meta property="og:video:url" content={mp4url} />
+                <meta property="og:video:secure_url" content={mp4url} />
                 <meta property="og:video:type" content="video/mp4" />
                 <meta property="og:video:width" content="1280" />
                 <meta property="og:video:height" content="720" />
             </Head>
-            <Player src={url} />
+            <Player src={mp4url} />
             <Flex mt="0.25rem">
                 <Text>{video.title}</Text>
                 <Flex ml="auto" alignItems="center" title="Views">
