@@ -4,6 +4,7 @@ import theme from "../theme/index";
 import { DependencyContextProvider } from "../contexts/DependencyContext";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <Flex flexDir="column" w="65rem" h="100%">
                         <Navbar />
                         <Component {...pageProps} />
+                        <Footer />
                     </Flex>
                 </AuthContextProvider>
             </DependencyContextProvider>

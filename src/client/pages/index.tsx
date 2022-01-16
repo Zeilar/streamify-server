@@ -1,4 +1,4 @@
-import { Flex, Progress, Text, useToast } from "@chakra-ui/react";
+import { Flex, Progress, Spinner, Text, useToast } from "@chakra-ui/react";
 import UploadDropzone from "../components/UploadDropzone";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -9,6 +9,7 @@ export default function Home() {
     const router = useRouter();
     const [uploading, setUploading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [success, setSuccess] = useState(false);
     const toast = useToast();
 
     async function upload(file: File, title: string) {
@@ -25,7 +26,11 @@ export default function Home() {
         });
         setUploading(false);
         if (response.ok) {
-            router.push(`/video/${response.data.id}`);
+            setSuccess(true);
+            // Sometimes Firebase has not yet registered the newly inserted video, give it a little more time to avoid null video
+            setTimeout(() => {
+                router.push(`/video/${response.data.id}`);
+            }, 1000);
         } else {
             toast({
                 title: "Failed uploading file",
@@ -41,9 +46,11 @@ export default function Home() {
             <Head>
                 <title>mp4</title>
             </Head>
-            <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
-                Upload mp4 video
-            </Text>
+            {!success && (
+                <Text textAlign="center" as="h3" textStyle="h3" mb="1rem">
+                    Upload mp4 video
+                </Text>
+            )}
             {uploading && (
                 <Flex w="100%" flexDir="column">
                     <Text
@@ -57,7 +64,15 @@ export default function Home() {
                     <Progress w="100%" value={progress} hasStripe isAnimated />
                 </Flex>
             )}
-            {!uploading && <UploadDropzone onSubmit={upload} />}
+            {!uploading && !success && <UploadDropzone onSubmit={upload} />}
+            {success && (
+                <>
+                    <Text textStyle="h3" as="h3">
+                        Redirecting to uploaded video...
+                    </Text>
+                    <Spinner mt="1rem" size="xl" color="primary.500" />
+                </>
+            )}
         </Flex>
     );
 }

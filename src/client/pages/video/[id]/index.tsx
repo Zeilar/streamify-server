@@ -36,7 +36,7 @@ export default function SingleVideo({
                 <meta property="og:video:height" content="720" />
             </Head>
             <Player src={mp4url} />
-            <Flex mt="0.25rem">
+            <Flex mt="0.5rem">
                 <Text>{video.title}</Text>
                 <Flex ml="auto" alignItems="center" title="Views">
                     <Text textStyle="span" as="span">
