@@ -6,8 +6,11 @@ import {
     NotFoundException,
     Param,
     Put,
+    UseFilters,
     UseGuards,
 } from "@nestjs/common";
+import { EmailTakenException } from "../../common/exceptions/EmailTakenException.exception";
+import { UserNotFoundException } from "../../common/exceptions/userNotFound.exception";
 import { AuthenticatedGuard } from "../../common/guards/authenticated.guard";
 import { EditUserGuard } from "../../common/guards/editUser.guard";
 import { UserExistsGuard } from "../../common/guards/userExists.guard";
@@ -27,13 +30,11 @@ export class UserController {
     @UseGuards(UserExistsGuard, AuthenticatedGuard, EditUserGuard)
     @HttpCode(204)
     @Put("/:id")
-    public async edit(
+    @UseFilters(UserNotFoundException, EmailTakenException)
+    public edit(
         @Body() editUserDto: EditUserDto,
         @Param() params: FindOneParams
     ) {
-        if (!(await this.userService.exists(params.id))) {
-            throw new NotFoundException();
-        }
         this.userService.edit(params.id, editUserDto);
     }
 }

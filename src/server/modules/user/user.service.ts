@@ -1,9 +1,12 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FindOneId } from "../../@types/repository";
 import { UserSchema } from "../../@types/user";
-import { UserNotFoundException } from "../../common/exceptions/userNotFound.exception";
 import { EditUserDto } from "../../common/validators/editUser.validator";
 import { CreateUserDto } from "../../common/validators/register.validator";
 import { HashService } from "../hash/hash.service";
@@ -35,7 +38,7 @@ export class UserService {
             if (safe) {
                 return null;
             }
-            throw new UserNotFoundException();
+            throw new NotFoundException();
         }
         return user;
     }
@@ -67,7 +70,10 @@ export class UserService {
 
     public async edit(id: FindOneId, editUserDto: EditUserDto) {
         if (await this.exists("email", editUserDto.email)) {
-            throw new ConflictException("That email is taken.");
+            throw new ConflictException();
+        }
+        if (!(await this.exists(id))) {
+            throw new NotFoundException();
         }
         const data: EditUserDto = { ...editUserDto };
         if (editUserDto.password) {

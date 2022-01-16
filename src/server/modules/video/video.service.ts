@@ -1,6 +1,7 @@
 import {
     Injectable,
     InternalServerErrorException,
+    NotFoundException,
     PayloadTooLargeException,
     UnsupportedMediaTypeException,
 } from "@nestjs/common";
@@ -15,7 +16,6 @@ import { Video, Visibility } from "./video.entity";
 import { fromBuffer } from "file-type";
 import { UploadVideoDto } from "../../common/validators/uploadVideo";
 import { VideoNotFoundException } from "../../common/exceptions/VideoNotFound.exception";
-import { User } from "../user/user.entity";
 import { VideoTooLargeException } from "../../common/exceptions/VideoTooLargeException.exception";
 import { VideoUnsupportedFormatException } from "../../common/exceptions/VideoUnsupportedFormatException.exception";
 
@@ -81,8 +81,13 @@ export class VideoService {
         return videoId;
     }
 
-    public findById(id: string) {
-        return this.videoRepository.findOne(id);
+    public async findById(id: string) {
+        const video = await this.videoRepository.findOne(id);
+        if (!video) {
+            console.log("NO");
+            throw new NotFoundException();
+        }
+        return video;
     }
 
     public getFileUrl(id: string) {
@@ -99,9 +104,6 @@ export class VideoService {
 
     public async findByIdAndView(id: string): Promise<Video> {
         const video = await this.findById(id);
-        if (!video) {
-            throw new VideoNotFoundException();
-        }
         const views = video.views + 1;
         await this.videoRepository.update(id, { views });
         return { ...video, views };

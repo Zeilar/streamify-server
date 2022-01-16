@@ -2,13 +2,16 @@ import {
     ExceptionFilter,
     Catch,
     ArgumentsHost,
-    HttpException,
+    UnsupportedMediaTypeException,
 } from "@nestjs/common";
 import { Response } from "express";
 
-@Catch(HttpException)
+@Catch(UnsupportedMediaTypeException)
 export class VideoUnsupportedFormatException implements ExceptionFilter {
-    public catch(exception: HttpException, host: ArgumentsHost) {
+    public catch(
+        exception: UnsupportedMediaTypeException,
+        host: ArgumentsHost
+    ) {
         const res = host.switchToHttp().getResponse<Response>();
         const status = exception.getStatus();
         res.status(status).json({
