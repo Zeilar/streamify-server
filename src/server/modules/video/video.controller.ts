@@ -43,7 +43,7 @@ export class VideoController {
         return { id };
     }
 
-    @Get("/public")
+    @Get("/")
     public getPublic() {
         return this.videoService.getPublic();
     }
