@@ -19,7 +19,7 @@ export default function SingleVideo({
 }: VideoData) {
     const mp4url = `${videoUrl}.mp4`;
     return (
-        <div>
+        <>
             <Head>
                 <title>{video.title} - mp4</title>
                 <meta property="og:title" content={video.title} />
@@ -45,7 +45,7 @@ export default function SingleVideo({
                     <Icon ml="0.5rem" icon="mdiEye" />
                 </Flex>
             </Flex>
-        </div>
+        </>
     );
 }
 

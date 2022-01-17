@@ -15,6 +15,11 @@ export const Button: StyleConfig = {
         md: {
             paddingX: "1.5rem",
         },
+        lg: {
+            paddingX: "2.5rem",
+            paddingY: "2rem",
+            fontSize: "1.25rem",
+        },
     },
     variants: {
         primary: {

@@ -128,13 +128,13 @@ export default function UploadDropzone({ onSubmit }: Props) {
                         )}
                     </FormControl>
                     <Player src={preview} />
-                    <Button type="submit" mt="0.5rem">
-                        Upload
+                    <Button type="submit" mt="1rem" mx="auto" size="lg">
+                        UPLOAD
                         <Icon
                             icon="mdiUpload"
                             ml="0.5rem"
-                            w="1.25rem"
-                            h="1.25rem"
+                            w="1.5rem"
+                            h="1.5rem"
                         />
                     </Button>
                 </Flex>
